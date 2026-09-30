@@ -49,9 +49,10 @@ functions/api/contact.js  お問い合わせフォームの受け口（Pages Fun
 
 ## 公開前チェック
 
-- [ ] `src/data/site.ts` の `email`・`tel`・`line` を実値に（`tel` が空のあいだは電話番号を表示しない）
-- [ ] `astro.config.mjs` の `site` を本番ドメインに
+- [x] 電話番号（080-9824-5804）・ドメイン（sunconnect.jp）を反映
+- [ ] 番地までの住所（特商法ページ）、LINE公式アカウントURL（`src/data/site.ts`）
+- [ ] `contact@sunconnect.jp` でメールを受信できるか確認（Cloudflare Email Routing 等）
 - [ ] Cloudflare Pages の環境変数（Secret）に `CONTACT_WEBHOOK_URL` を設定（Slack Incoming Webhook や Google Apps Script など、JSON を POST で受けられるURL）。未設定のあいだ、フォームは「準備中」を返す
 - [ ] OGP 画像 `public/og.png`（1200×630）を用意
 - [ ] 実在事業者の制作事例は、成約と掲載の承諾を得てから追加する（現在のサンプルはすべて架空の店舗）
-- [ ] 提案レターは `studio.sunconnect.jp/sites/<slug>/` を案内している。このサイトで同じドメインを使う場合は、限定公開のサンプル（`utsunomiya-sales/public/sites/`）を別サブドメインに移すか、このサイトでも配信する
+- [ ] このサイトは `sunconnect.jp`、限定公開の提案サンプルは従来どおり `studio.sunconnect.jp/sites/<slug>/`（utsunomiya-sales）で配信。`studio.sunconnect.jp/` のトップは `sunconnect.jp` へリダイレクトするのがおすすめ
