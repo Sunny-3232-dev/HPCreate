@@ -4,10 +4,10 @@ import { site } from '../data/site';
 <section id="contact" class="section contact">
   <div class="container grid">
     <div>
-      <p class="eyebrow">Contact</p>
-      <h2 class="h-sec" data-split>最初の一歩は、<br /><em>お気軽に</em>。</h2>
+      <p class="eyebrow">お問い合わせ</p>
+      <h2 class="h-sec" data-split>「うちでも必要かな」<br />くらいの段階で大丈夫です。</h2>
       <p class="lead">
-        「うちでも必要？」という段階のご相談も歓迎です。ご希望の方には、お店の口コミをもとにしたトップページのサンプルを無料でお作りします。
+        電話でもフォームでも、話しやすい方でどうぞ。ご希望があれば、お店の口コミをもとにトップページのサンプルを作ってお見せします。そこまでは費用はかかりません。
       </p>
       <dl class="direct">
         {site.tel && (
@@ -40,15 +40,15 @@ import { site } from '../data/site';
         </label>
       </div>
       <label>
-        <span>ご相談内容 <b>必須</b></span>
-        <textarea name="message" rows="5" required maxlength="4000" placeholder="例）Googleマップの口コミは多いが、ホームページがありません。料金の目安を知りたいです。"></textarea>
+        <span>ご相談の内容 <b>必須</b></span>
+        <textarea name="message" rows="5" required maxlength="4000" placeholder="例）Googleマップの口コミはあるけれど、ホームページがありません。どのくらい費用がかかるか知りたいです。"></textarea>
       </label>
       <label class="hp" aria-hidden="true">
         <span>この欄は空のままにしてください</span>
         <input name="website" tabindex="-1" autocomplete="off" />
       </label>
       <p class="privacy">送信により<a href="/legal/privacy-policy/">プライバシーポリシー</a>に同意したものとみなします。</p>
-      <button class="btn" type="submit" data-magnetic>送信する<span class="arrow" aria-hidden="true">→</span></button>
+      <button class="btn" type="submit">送信する<span class="arrow" aria-hidden="true">→</span></button>
       <p class="status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -69,7 +69,7 @@ import { site } from '../data/site';
       if (!res.ok) throw new Error(data.error || '送信に失敗しました。');
       form.reset();
       status.dataset.state = 'ok';
-      status.textContent = 'ありがとうございます。2営業日以内にご連絡いたします。';
+      status.textContent = '送信しました。2営業日以内に、豊田からご連絡します。';
     } catch (err) {
       status.dataset.state = 'error';
       status.textContent = `${(err as Error).message} お手数ですがメールでご連絡ください。`;

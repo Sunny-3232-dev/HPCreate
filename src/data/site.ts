@@ -3,9 +3,9 @@
 export const site = {
   name: 'SunConnect',
   nameJa: 'サンコネクト',
-  tagline: '朝陽が差し込むように、地方の仕事に光を。',
+  tagline: '口コミはいいのに、ホームページがないお店へ。',
   description:
-    '栃木県宇都宮市のWeb制作スタジオ SunConnect。Googleの口コミは良いのにホームページがない——そんな地域のお店に、20万円前後で「見つかる・選ばれる」ホームページとGoogleビジネスプロフィール整備をお届けします。',
+    '宇都宮でホームページを作っているSunConnectです。Googleの口コミは良いのにホームページがないお店に、税抜198,000円からホームページを作り、Googleマップの登録情報も整えます。',
   // TODO: 番地までの住所が決まったら address を追加し、特商法ページに反映
   city: '栃木県宇都宮市',
   email: 'contact@sunconnect.jp',
@@ -22,7 +22,7 @@ export const plans = [
     name: '名刺サイト',
     price: 150000,
     monthly: 3000,
-    summary: '事業内容・連絡先・アクセスをまとめた1ページ。まずはWeb上に「お店の顔」を。',
+    summary: '仕事の内容、連絡先、地図を1ページにまとめます。まずは名刺がわりに。',
     features: ['1ページ完結', 'スマホ最適化', '独自ドメイン・SSL'],
   },
   {
@@ -32,7 +32,7 @@ export const plans = [
     monthly: 5000,
     featured: true,
     summary:
-      '口コミの良さを、そのまま来店と問い合わせにつなげる主力プラン。ホームページとGoogleマップの両方を整えます。',
+      'ホームページとGoogleマップの登録情報を、まとめて整えます。',
     features: [
       '3〜5ページ構成',
       'Googleビジネスプロフィール整備',
@@ -47,7 +47,7 @@ export const plans = [
     name: '集客サイト',
     price: 350000,
     monthly: 8000,
-    summary: '施工事例・メニュー・FAQ・ブログまで備えた本格構成。検索からの集客を育てたい方に。',
+    summary: '施工事例やメニュー、よくある質問、お知らせまで載せたい方に。検索から来る人を増やしたい場合はこちら。',
     features: ['5〜10ページ', 'SEO設計', 'お問い合わせフォーム', '更新サポート'],
   },
   {
@@ -56,7 +56,7 @@ export const plans = [
     price: 250000,
     monthly: 5000,
     from: true,
-    summary: '古いサイトをスマホ対応・HTTPS化・高速化。既存の情報を活かしながら現代の基準へ。',
+    summary: 'スマホで崩れる、「保護されていない通信」と出る。そんな古いホームページを作り直します。',
     features: ['HTTPS化', 'スマホ対応', '表示速度改善', '既存コンテンツ整理'],
   },
 ] as const;

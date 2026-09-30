@@ -15,7 +15,7 @@
   --dusk: #1f1a2e;
   --night: #120f1c;
 
-  --font-display: 'Fraunces', 'Shippori Mincho', serif;
+  --font-display: 'Shippori Mincho', 'Noto Serif JP', serif;
   --font-serif: 'Shippori Mincho', 'Noto Serif JP', serif;
   --font-body: 'Noto Sans JP', system-ui, -apple-system, sans-serif;
 
@@ -35,6 +35,7 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
 body {
+  font-variant-numeric: tabular-nums;
   font-family: var(--font-body);
   color: var(--ink);
   background: var(--bg);
@@ -54,11 +55,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 /* ─── Type ─── */
 .eyebrow {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--amber-deep);
+  display: block; font-size: 0.85rem; font-weight: 700; color: var(--amber-deep); letter-spacing: 0.08em;
 }
-.eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
 .h-sec {
   font-family: var(--font-serif); font-weight: 700;
   font-size: clamp(1.75rem, 4.2vw, 3.1rem); line-height: 1.45; letter-spacing: 0.04em;

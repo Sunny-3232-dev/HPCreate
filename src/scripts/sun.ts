@@ -51,10 +51,10 @@ void main() {
   // 光条
   float ang = atan(d.y, d.x);
   float rays = pow(max(0.0, sin(ang * 14.0 + uTime * 0.08) * 0.5 + 0.5), 6.0);
-  rays *= smoothstep(1.2, 0.2, r) * 0.18;
+  rays *= smoothstep(1.2, 0.2, r) * 0.06;
 
   // コロナとディスク
-  float corona = exp(-r * 3.2) * 0.9;
+  float corona = exp(-r * 3.6) * 0.7;
   float disc = smoothstep(0.205, 0.19, r + (fbm(d * 6.0 + uTime * 0.1) - 0.5) * 0.012);
 
   vec3 amber = vec3(0.910, 0.573, 0.235);

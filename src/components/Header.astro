@@ -1,10 +1,10 @@
 ---
 import { site } from '../data/site';
 const nav = [
-  { href: '/#why', label: 'なぜHPが必要か' },
-  { href: '/#samples', label: '提案サンプル' },
+  { href: '/#why', label: 'なぜホームページか' },
+  { href: '/#samples', label: 'サンプル' },
   { href: '/#plans', label: '料金' },
-  { href: '/#flow', label: '流れ' },
+  { href: '/#flow', label: '進め方' },
   { href: '/#faq', label: 'よくある質問' },
 ];
 ---
@@ -17,7 +17,7 @@ const nav = [
     <nav class="nav" aria-label="メイン">
       {nav.map((n) => <a href={n.href}>{n.label}</a>)}
     </nav>
-    <a class="btn cta" href="/#contact" data-magnetic>無料相談<span class="arrow" aria-hidden="true">→</span></a>
+    <a class="btn cta" href="/#contact">無料相談<span class="arrow" aria-hidden="true">→</span></a>
     <button class="menu-btn" type="button" popovertarget="mobile-menu" aria-label="メニューを開く">
       <span></span><span></span>
     </button>
@@ -56,7 +56,7 @@ const nav = [
     animation: breathe 5s ease-in-out infinite;
   }
   @keyframes breathe { 50% { box-shadow: 0 0 0 10px color-mix(in oklab, var(--amber) 8%, transparent), 0 6px 24px -4px var(--amber); } }
-  .name { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 1.25rem; line-height: 1; }
+  .name { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; line-height: 1; }
   .name small { display: block; font-family: var(--font-serif); font-style: normal; font-size: 0.62rem; letter-spacing: 0.24em; color: var(--ink-muted); margin-top: 5px; }
   .nav { display: flex; gap: 28px; }
   .nav a { font-size: 0.88rem; font-weight: 500; text-decoration: none; position: relative; padding-block: 4px; }

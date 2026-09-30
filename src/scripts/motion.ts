@@ -3,7 +3,7 @@
 // - GSAP SplitText：見出しの文字単位リビール
 // - GSAP ScrollTrigger：Before/After の固定スクロール、横スクロールギャラリー
 // - CSS scroll-driven 非対応ブラウザ向けの .reveal フォールバック
-// - 磁力ボタン、ヘッダーの出し入れ、数字カウントアップ
+// - ヘッダーの出し入れ、数字カウントアップ
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
@@ -12,7 +12,6 @@ import Lenis from 'lenis';
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const finePointer = matchMedia('(pointer: fine)').matches;
 
 function smoothScroll() {
   if (reduce) return;
@@ -70,23 +69,6 @@ function header() {
     },
     { passive: true },
   );
-}
-
-function magnetic() {
-  if (reduce || !finePointer) return;
-  document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
-    const x = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' });
-    const y = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3.out' });
-    el.addEventListener('pointermove', (e) => {
-      const r = el.getBoundingClientRect();
-      x((e.clientX - r.left - r.width / 2) * 0.25);
-      y((e.clientY - r.top - r.height / 2) * 0.35);
-    });
-    el.addEventListener('pointerleave', () => {
-      x(0);
-      y(0);
-    });
-  });
 }
 
 function countUp() {
@@ -188,7 +170,6 @@ export function initMotion() {
   smoothScroll();
   revealFallback();
   header();
-  magnetic();
   document.fonts.ready.then(() => {
     splitHeadings();
     countUp();

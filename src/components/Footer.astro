@@ -6,10 +6,14 @@ const year = new Date().getFullYear();
   <div class="container grid">
     <div>
       <p class="brand">{site.name}</p>
-      <p class="muted">{site.city}<br />地域のお店のホームページ制作と、Googleマップ集客の伴走。</p>
+      <p class="muted">
+        {site.city}<br />
+        {site.tel && <>電話 <a href={`tel:${site.tel.replace(/-/g, '')}`}>{site.tel}</a>（{site.hours}）<br /></>}
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
     </div>
     <nav aria-label="フッター">
-      <a href="/#samples">提案サンプル</a>
+      <a href="/#samples">サンプル</a>
       <a href="/#plans">料金</a>
       <a href="/#contact">お問い合わせ</a>
       <a href="/legal/specified-commercial-transaction/">特定商取引法に基づく表記</a>
@@ -17,24 +21,17 @@ const year = new Date().getFullYear();
     </nav>
   </div>
   <p class="container copy">© {year} {site.name}</p>
-  <p class="giant" aria-hidden="true" data-parallax="-12">SunConnect</p>
 </footer>
 
 <style>
-  .footer { background: var(--night); color: #e9e2d3; padding-top: 88px; overflow: hidden; position: relative; }
+  .footer { background: #1d1a16; color: #e9e2d3; padding-block: 64px 32px; }
   .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; }
-  .brand { font-family: var(--font-display); font-style: italic; font-size: 1.6rem; }
-  .muted { color: #a9a092; font-size: 0.9rem; margin-top: 12px; }
-  nav { display: grid; gap: 10px; font-size: 0.9rem; }
+  .brand { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 700; }
+  .muted { color: #b3aa9b; font-size: 0.9rem; margin-top: 12px; }
+  .muted a { color: inherit; }
+  nav { display: grid; gap: 8px; font-size: 0.9rem; }
   nav a { text-decoration: none; color: #d7cfbf; }
   nav a:hover { color: var(--amber-light); }
-  .copy { font-size: 0.78rem; color: #8a8173; margin-top: 56px; }
-  .giant {
-    font-family: var(--font-display); font-style: italic; font-weight: 600;
-    font-size: clamp(4rem, 19vw, 17rem); line-height: 0.8; letter-spacing: -0.04em; white-space: nowrap;
-    background: linear-gradient(180deg, var(--amber) 0%, transparent 85%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    margin: 32px 0 -0.12em -0.04em; opacity: 0.55; user-select: none;
-  }
+  .copy { font-size: 0.78rem; color: #8a8173; margin-top: 48px; }
   @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
 </style>
