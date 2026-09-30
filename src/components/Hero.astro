@@ -1,48 +1,67 @@
 ---
 import { site } from '../data/site';
+import HeroMap from './HeroMap.astro';
+const tel = site.tel.replace(/-/g, '');
 ---
 <section class="hero" aria-labelledby="hero-title">
-  <div class="sky" data-sky aria-hidden="true">
-    <div class="fallback-sun"></div>
-  </div>
-  <div class="container inner">
-    <p class="eyebrow">宇都宮のホームページ制作</p>
-    <h1 id="hero-title" class="title" data-split="hero">口コミはいいのに、<br />ホームページがない<br />お店へ。</h1>
-    <p class="dek reveal">
-      Googleマップで★4以上がついているのに、検索してもホームページが出てこない。宇都宮で、そんなお店をよく見かけます。もったいないな、と思って始めた仕事です。
-    </p>
-    <div class="actions reveal">
-      <a class="btn" href="#contact">相談してみる<span class="arrow" aria-hidden="true">→</span></a>
-      {site.tel && <a class="tel" href={`tel:${site.tel.replace(/-/g, '')}`}>電話 {site.tel}</a>}
+  <div class="container grid">
+    <div class="copy">
+      <p class="label">宇都宮のホームページ制作</p>
+      <h1 id="hero-title" class="title" data-split="hero">
+        口コミはいいのに、<br />ホームページが<span class="nowrap">ない</span><br />お店へ。
+      </h1>
+      <p class="dek reveal">
+        Googleマップで★4以上。それなのに、検索してもホームページが出てこない。そんな宇都宮のお店に、税抜<strong>198,000円</strong>からホームページをお作りします。
+      </p>
+      <div class="actions reveal">
+        {site.tel && (
+          <a class="btn btn--star" href={`tel:${tel}`}>電話で相談する<span class="arrow" aria-hidden="true">→</span></a>
+        )}
+        <a class="btn btn--line" href="#contact">フォームで相談</a>
+      </div>
+      <ul class="facts reveal">
+        <li>相談は無料</li>
+        <li>お店用のサンプルも無料</li>
+        <li>宇都宮近郊は訪問します</li>
+      </ul>
     </div>
-    <p class="note reveal">制作費は税抜198,000円から。相談と、お店用のサンプル作成は無料です。</p>
+    <div class="visual" data-hero-visual>
+      <HeroMap />
+    </div>
   </div>
-  <script>
-    import { mountSun } from '../scripts/sun';
-    const host = document.querySelector<HTMLElement>('[data-sky]');
-    if (host) mountSun(host);
-  </script>
 </section>
 
 <style>
-  .hero { position: relative; min-height: 100svh; display: grid; margin-top: -72px; overflow: hidden; }
-  .sky { position: absolute; inset: 0; background: linear-gradient(180deg, #faf6ec 0%, #f2ead8 100%); }
-  .sky :global(canvas) { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .fallback-sun {
-    position: absolute; right: -10%; top: 12%; width: min(60vw, 520px); aspect-ratio: 1; border-radius: 50%;
-    background: radial-gradient(circle, #ffe7c7 0%, var(--amber-light) 40%, rgba(232, 146, 60, 0.35) 70%, transparent 85%);
+  .hero { position: relative; margin-top: -76px; padding-top: 128px; padding-bottom: clamp(56px, 8vw, 104px); overflow: hidden; }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(circle at 1px 1px, rgba(23, 32, 27, 0.12) 1px, transparent 0) 0 0 / 22px 22px;
+    mask: linear-gradient(to bottom, #000 40%, transparent);
   }
-  .sky:global(.has-webgl) .fallback-sun { display: none; }
-  .inner { position: relative; align-self: center; padding-top: 128px; padding-bottom: 80px; }
+  .grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
   .title {
-    font-family: var(--font-serif); font-weight: 700;
-    font-size: clamp(2.2rem, 6.2vw, 5.2rem); line-height: 1.35; letter-spacing: 0.02em;
-    margin-top: 20px; word-break: auto-phrase;
+    font-weight: 900; font-size: clamp(2.1rem, 4.2vw, 3.5rem); line-height: 1.3; letter-spacing: 0;
+    margin-top: 22px;
   }
   .title :global(.char) { display: inline-block; will-change: transform; }
-  .dek { margin-top: 28px; font-size: clamp(1rem, 1.5vw, 1.12rem); color: var(--ink-soft); max-width: 36em; text-wrap: pretty; }
-  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 36px; }
-  .tel { font-weight: 700; font-size: 1.1rem; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
-  .tel:hover { color: var(--amber-deep); }
-  .note { margin-top: 20px; font-size: 0.85rem; color: var(--ink-muted); }
+  .nowrap { white-space: nowrap; }
+  .dek { margin-top: 26px; font-size: 1.1rem; color: var(--ink-2); max-width: 30em; }
+  .dek strong { font-weight: 900; color: var(--ink); background: linear-gradient(transparent 58%, var(--star-soft) 58%); }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .facts { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; font-size: 0.9rem; font-weight: 700; color: var(--ink-2); }
+  .facts li { display: inline-flex; align-items: center; gap: 6px; }
+  .facts li::before { content: '✓'; color: var(--forest); font-weight: 900; }
+  /* 地図は、スクロールに合わせて少し奥へ（CSS Scroll-driven） */
+  @supports (animation-timeline: scroll()) {
+    .visual { animation: map-away linear both; animation-timeline: scroll(root); animation-range: 0 90vh; }
+  }
+  @keyframes map-away { to { transform: translateY(40px) scale(0.94) rotate(-1.5deg); opacity: 0.6; } }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .visual { margin-top: 8px; }
+    .hero { padding-top: 96px; }
+    .actions .btn { flex: 1 1 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .visual { animation: none; } }
 </style>

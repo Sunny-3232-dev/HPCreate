@@ -1,51 +1,81 @@
 ---
 import { plans, yen } from '../data/site';
+const main = plans.find((p) => 'featured' in p && p.featured)!;
+const others = plans.filter((p) => p !== main);
 ---
 <section id="plans" class="section plans">
   <div class="container">
-    <p class="eyebrow">料金</p>
-    <h2 class="h-sec" data-split>料金は、先に<br />ぜんぶ書いておきます。</h2>
-    <p class="lead">表示はすべて税抜です。制作費は、着手時と公開時の2回に分けてお支払いいただけます。月々の保守は、なくても構いません。</p>
-    <div class="grid">
-      {plans.map((p) => {
-        const featured = 'featured' in p && p.featured;
-        return (
-          <article class:list={['plan', 'reveal', { featured }]}>
-            {featured && <p class="badge">はじめての方におすすめ</p>}
-            <h3>{p.name}</h3>
-            <p class="price">
-              {yen(p.price)}
-              {'from' in p && p.from && <small>〜</small>}
-            </p>
-            <p class="monthly">保守 月{yen(p.monthly)}〜（任意）</p>
-            <p class="summary">{p.summary}</p>
-            <ul>
-              {p.features.map((f) => <li>{f}</li>)}
-            </ul>
-            <a class:list={['btn', { 'btn--ghost': !featured }]} href="#contact">このプランについて聞く</a>
-          </article>
-        );
-      })}
+    <p class="label">料金</p>
+    <h2 class="h2" data-split>料金は、先に<br />ぜんぶ書いておきます。</h2>
+    <p class="lead">表示はすべて税抜です。制作費は、着手時と公開時の2回に分けてお支払いいただけます。</p>
+
+    <article class="main reveal">
+      <div class="price-col">
+        <p class="badge">はじめての方に</p>
+        <h3>{main.name}</h3>
+        <p class="price"><span class="yen">¥</span><span data-count={main.price}>{main.price.toLocaleString('ja-JP')}</span></p>
+        <p class="monthly">公開後の保守は 月{yen(main.monthly)}〜（なくても可）</p>
+        <p class="summary">{main.summary}</p>
+        <a class="btn btn--star" href="#contact">このプランで相談する<span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <ul class="includes">
+        {main.features.map((f) => <li>{f}</li>)}
+      </ul>
+    </article>
+
+    <h3 class="sub reveal">ほかのプラン</h3>
+    <div class="table reveal" role="table" aria-label="ほかのプラン">
+      {others.map((p) => (
+        <div class="row" role="row">
+          <div class="name" role="cell">
+            <b>{p.name}</b>
+            <span>{p.summary}</span>
+          </div>
+          <div class="feat" role="cell">{p.features.join('／')}</div>
+          <div class="cost" role="cell">
+            <b>{yen(p.price)}{'from' in p && p.from ? '〜' : ''}</b>
+            <span>保守 月{yen(p.monthly)}〜</span>
+          </div>
+        </div>
+      ))}
     </div>
     <p class="note">予約システムやネットショップが必要な場合は、内容を伺ってからお見積りします。</p>
   </div>
 </section>
 
 <style>
-  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; align-items: stretch; }
-  .plan { position: relative; display: flex; flex-direction: column; padding: 32px 24px; border-radius: 12px; background: var(--paper); border: 1px solid var(--hairline); }
-  .featured { border: 2px solid var(--amber-deep); background: #fff; }
-  .badge { position: absolute; top: -12px; left: 20px; background: var(--amber-deep); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 2px 12px; border-radius: 4px; }
-  h3 { font-family: var(--font-serif); font-size: 1.2rem; }
-  .price { font-size: 2rem; font-weight: 700; margin-top: 12px; line-height: 1.2; }
-  .price small { font-size: 0.55em; }
-  .monthly { font-size: 0.82rem; margin-top: 6px; color: var(--ink-muted); }
-  .summary { font-size: 0.9rem; margin-top: 16px; color: var(--ink-soft); }
-  ul { list-style: none; margin: 16px 0 28px; display: grid; gap: 6px; font-size: 0.86rem; }
-  li { padding-left: 1.3em; position: relative; }
-  li::before { content: '・'; position: absolute; left: 0; color: var(--amber-deep); }
-  .plan .btn { margin-top: auto; justify-content: center; font-size: 0.85rem; padding: 12px 18px; }
-  .note { margin-top: 24px; font-size: 0.88rem; color: var(--ink-muted); }
-  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  .plans { background: var(--stone); }
+  .main {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 48px;
+    border-radius: 28px; overflow: hidden; background: var(--paper); border: 2px solid var(--forest);
+  }
+  .price-col { background: var(--forest); color: #fff; padding: clamp(28px, 4vw, 48px); display: flex; flex-direction: column; align-items: flex-start; }
+  .badge { font-size: 0.8rem; font-weight: 900; background: var(--star); color: var(--ink); border-radius: 6px; padding: 2px 10px; }
+  .price-col h3 { font-weight: 900; font-size: 1.5rem; margin-top: 14px; }
+  .price { font-weight: 900; font-size: clamp(3rem, 7vw, 4.6rem); line-height: 1.05; margin-top: 8px; letter-spacing: -0.01em; }
+  .yen { font-size: 0.5em; margin-right: 4px; vertical-align: 0.35em; }
+  .monthly { color: var(--forest-ink); font-size: 0.95rem; margin-top: 6px; }
+  .summary { margin-top: 16px; }
+  .price-col .btn { margin-top: auto; }
+  .price-col .summary { margin-bottom: 28px; }
+  .includes { list-style: none; padding: clamp(28px, 4vw, 48px); display: grid; gap: 14px; align-content: center; }
+  .includes li { position: relative; padding-left: 36px; font-weight: 700; }
+  .includes li::before {
+    content: '✓'; position: absolute; left: 0; top: 0.15em; width: 24px; height: 24px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--star-soft); color: var(--forest); font-size: 0.8rem; font-weight: 900;
+  }
+  .sub { font-weight: 900; font-size: 1.2rem; margin-top: 56px; }
+  .table { margin-top: 12px; border-top: 2px solid var(--ink); }
+  .row { display: grid; grid-template-columns: 1.3fr 1.5fr 0.8fr; gap: 24px; padding: 20px 4px; border-bottom: 1px solid var(--line); align-items: center; }
+  .name b { display: block; font-weight: 900; font-size: 1.1rem; }
+  .name span, .feat { font-size: 0.9rem; color: var(--ink-2); }
+  .cost { text-align: right; }
+  .cost b { display: block; font-weight: 900; font-size: 1.3rem; }
+  .cost span { font-size: 0.82rem; color: var(--ink-3); }
+  .note { margin-top: 20px; font-size: 0.9rem; color: var(--ink-3); }
+  @media (max-width: 860px) {
+    .main { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr; gap: 6px; }
+    .cost { text-align: left; }
+  }
 </style>

@@ -1,28 +1,26 @@
-/* ─── Tokens: 黎明（dawn）パレット ─── */
+/* ─── Tokens：まちの地図（大谷石・森・星） ─── */
 :root {
-  --bg: #faf6ec;
-  --bg-soft: #f2ead8;
-  --paper: #fffcf5;
-  --ink: #15110b;
-  --ink-soft: #3d332a;
-  --ink-muted: #6f6453;
-  --hairline: #d9cfb5;
-  --amber: #e8923c;
-  --amber-deep: #b8621a;
-  --amber-light: #f5c68f;
-  --amber-pale: #ffe9cb;
-  --dawn: #5c5077;
-  --dusk: #1f1a2e;
-  --night: #120f1c;
+  --stone: #ecebe4;        /* 大谷石のグレージュ（地） */
+  --stone-2: #e1dfd5;
+  --paper: #fbfaf6;
+  --ink: #17201b;
+  --ink-2: #33403a;
+  --ink-3: #56645c;        /* 補足文字（地色に対し 5.5:1 以上） */
+  --line: #cfcdc2;
+  --forest: #1e4a38;       /* 森の深緑（主色） */
+  --forest-2: #2c6650;
+  --forest-ink: #e8efe9;
+  --star: #f3b21b;         /* 口コミの星 */
+  --star-soft: #fbe6ad;
+  --alert: #c8412c;        /* 「ウェブサイトなし」 */
 
-  --font-display: 'Shippori Mincho', 'Noto Serif JP', serif;
-  --font-serif: 'Shippori Mincho', 'Noto Serif JP', serif;
-  --font-body: 'Noto Sans JP', system-ui, -apple-system, sans-serif;
+  --font: 'Zen Kaku Gothic New', 'Noto Sans JP', system-ui, sans-serif;
 
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --gutter: clamp(16px, 4vw, 40px);
-  --max: 1240px;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1200px;
+  --radius: 20px;
   color-scheme: light;
 }
 
@@ -30,102 +28,97 @@
 *::before,
 *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+html { font-size: 17px; -webkit-text-size-adjust: 100%; }
+@media (max-width: 640px) { html { font-size: 16px; } }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
 body {
-  font-variant-numeric: tabular-nums;
-  font-family: var(--font-body);
+  font-family: var(--font);
+  font-weight: 500;
   color: var(--ink);
-  background: var(--bg);
-  line-height: 1.9;
-  letter-spacing: 0.03em;
+  background: var(--stone);
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
 img, svg, canvas { display: block; max-width: 100%; }
 a { color: inherit; }
 button, input, textarea, select { font: inherit; color: inherit; }
-::selection { background: var(--ink); color: var(--paper); }
-:focus-visible { outline: 2px solid var(--amber-deep); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--forest); color: #fff; }
+:focus-visible { outline: 3px solid var(--star); outline-offset: 3px; border-radius: 6px; }
 
 .container { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* ─── Type ─── */
-.eyebrow {
-  display: block; font-size: 0.85rem; font-weight: 700; color: var(--amber-deep); letter-spacing: 0.08em;
+/* ─── 見出し ─── */
+.label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; font-weight: 700; color: var(--forest);
+  background: var(--paper); border: 1.5px solid var(--forest); border-radius: 999px; padding: 2px 14px 2px 10px;
 }
-.h-sec {
-  font-family: var(--font-serif); font-weight: 700;
-  font-size: clamp(1.75rem, 4.2vw, 3.1rem); line-height: 1.45; letter-spacing: 0.04em;
-  margin-top: 18px;
-  word-break: auto-phrase; text-wrap: balance;
+.label::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--star); box-shadow: 0 0 0 2px var(--forest); }
+.h2 {
+  font-weight: 900; font-size: clamp(1.9rem, 4.4vw, 3.3rem); line-height: 1.3; letter-spacing: 0.01em;
+  margin-top: 16px; word-break: auto-phrase; text-wrap: balance;
 }
-.h-sec em { font-style: normal; color: var(--amber-deep); }
-.lead { font-size: clamp(0.98rem, 1.4vw, 1.08rem); color: var(--ink-soft); max-width: 40em; margin-top: 20px; text-wrap: pretty; }
-.section { padding-block: clamp(88px, 13vw, 160px); position: relative; }
+.h2 mark { background: linear-gradient(transparent 60%, var(--star-soft) 60%); color: inherit; padding-inline: 2px; }
+.lead { font-size: 1.05rem; color: var(--ink-2); margin-top: 18px; max-width: 34em; text-wrap: pretty; }
+.section { padding-block: clamp(80px, 11vw, 140px); position: relative; }
 
-/* ─── Buttons ─── */
+/* ─── ボタン ─── */
 .btn {
-  --btn-bg: var(--ink); --btn-fg: var(--paper);
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 15px 28px; border-radius: 999px; border: 1px solid var(--btn-bg);
-  background: var(--btn-bg); color: var(--btn-fg);
-  font-weight: 700; font-size: 0.95rem; letter-spacing: 0.08em; text-decoration: none;
-  cursor: pointer; will-change: transform;
-  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  --bg: var(--forest); --fg: #fff;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 56px; padding: 0 30px; border-radius: 14px; border: 2px solid var(--bg);
+  background: var(--bg); color: var(--fg);
+  font-weight: 700; font-size: 1.02rem; text-decoration: none; cursor: pointer;
+  box-shadow: 0 4px 0 0 color-mix(in oklab, var(--bg) 60%, black);
+  transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), background 0.2s;
 }
-.btn:hover { --btn-bg: var(--amber-deep); }
-.btn--ghost { --btn-bg: transparent; --btn-fg: var(--ink); border-color: var(--ink); }
-.btn--ghost:hover { --btn-bg: var(--ink); --btn-fg: var(--paper); }
-.btn .arrow { transition: transform 0.3s var(--ease-out); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 0 color-mix(in oklab, var(--bg) 60%, black); }
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 0 color-mix(in oklab, var(--bg) 60%, black); }
+.btn--star { --bg: var(--star); --fg: var(--ink); }
+.btn--line { --bg: var(--paper); --fg: var(--forest); border-color: var(--forest); box-shadow: 0 4px 0 0 var(--forest); }
+.btn .arrow { transition: transform 0.2s var(--ease-out); }
 .btn:hover .arrow { transform: translateX(4px); }
 
-/* ─── Scroll progress（CSS Scroll-driven Animations） ─── */
+/* ─── 読み進めバー（CSS Scroll-driven） ─── */
 .progress {
-  position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 100;
-  background: linear-gradient(90deg, var(--amber-light), var(--amber), var(--amber-deep));
-  transform-origin: 0 50%; transform: scaleX(0);
+  position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 100;
+  background: var(--star); transform-origin: 0 50%; transform: scaleX(0);
 }
 @supports (animation-timeline: scroll()) {
   .progress { animation: grow-x linear both; animation-timeline: scroll(root); }
 }
 @keyframes grow-x { to { transform: scaleX(1); } }
 
-/* ─── Reveal: CSS view() タイムライン。未対応ブラウザは JS（IntersectionObserver）で .is-in を付与 ─── */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
+/* ─── 出現：CSS view()。未対応は JS で .is-in ─── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
 .reveal.is-in { opacity: 1; transform: none; }
 @supports (animation-timeline: view()) {
   .reveal, .reveal.is-in {
     opacity: 1; transform: none; transition: none;
-    animation: reveal-up linear both;
-    animation-timeline: view();
-    animation-range: entry 5% cover 28%;
+    animation: reveal-up linear both; animation-timeline: view(); animation-range: entry 0% cover 25%;
   }
 }
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(4px); }
-  to { opacity: 1; transform: none; filter: none; }
-}
+@keyframes reveal-up { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
 
 /* ─── ページ間 View Transitions ─── */
 @view-transition { navigation: auto; }
-::view-transition-old(root) { animation: 0.35s var(--ease-in-out) both vt-out; }
-::view-transition-new(root) { animation: 0.5s var(--ease-out) both vt-in; }
-@keyframes vt-out { to { opacity: 0; transform: translateY(-12px); } }
-@keyframes vt-in { from { opacity: 0; transform: translateY(16px); } }
+::view-transition-old(root) { animation: 0.3s ease both vt-out; }
+::view-transition-new(root) { animation: 0.45s var(--ease-out) both vt-in; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(12px); } }
 
-/* ─── 動きを減らす設定の尊重 ─── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important; scroll-behavior: auto !important;
   }
-  .reveal, .reveal.is-in { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
+  .reveal, .reveal.is-in { opacity: 1 !important; transform: none !important; animation: none !important; }
   .progress { display: none; }
   @view-transition { navigation: none; }
 }

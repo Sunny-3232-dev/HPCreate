@@ -1,44 +1,45 @@
 ---
 import { site } from '../data/site';
+const tel = site.tel.replace(/-/g, '');
 ---
 <section id="contact" class="section contact">
   <div class="container grid">
-    <div>
-      <p class="eyebrow">お問い合わせ</p>
-      <h2 class="h-sec" data-split>「うちでも必要かな」<br />くらいの段階で大丈夫です。</h2>
-      <p class="lead">
-        電話でもフォームでも、話しやすい方でどうぞ。ご希望があれば、お店の口コミをもとにトップページのサンプルを作ってお見せします。そこまでは費用はかかりません。
-      </p>
-      <dl class="direct">
-        {site.tel && (
-          <div><dt>お電話</dt><dd><a href={`tel:${site.tel.replace(/-/g, '')}`}>{site.tel}</a><small>{site.hours}</small></dd></div>
-        )}
-        <div><dt>メール</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
-        {site.line && (
-          <div><dt>LINE</dt><dd><a href={site.line} rel="noopener">LINE公式アカウント</a></dd></div>
-        )}
-      </dl>
+    <div class="side">
+      <p class="label">ご相談</p>
+      <h2 class="h2" data-split>「うちでも必要かな」<br />の段階で大丈夫です。</h2>
+      <p class="lead">話しやすい方法でどうぞ。ご希望があれば、お店の口コミをもとにトップページの見本を作ってお見せします。そこまでは費用はかかりません。</p>
+      {site.tel && (
+        <a class="call" href={`tel:${tel}`}>
+          <span class="call-label">いちばん早いのは電話です</span>
+          <span class="call-num">{site.tel}</span>
+          <span class="call-hours">{site.hours}　豊田が出ます</span>
+        </a>
+      )}
+      <p class="mail">メール：<a href={`mailto:${site.email}`}>{site.email}</a></p>
+      {site.line && <p class="mail">LINE：<a href={site.line} rel="noopener">公式アカウント</a></p>}
     </div>
 
     <form class="form reveal" method="post" action="/api/contact" data-contact>
+      <p class="form-title">フォームで相談する</p>
       <label>
         <span>お名前 <b>必須</b></span>
         <input name="name" required autocomplete="name" maxlength="80" />
       </label>
       <label>
-        <span>屋号・店舗名</span>
+        <span>お店の名前</span>
         <input name="shop" autocomplete="organization" maxlength="120" />
       </label>
       <div class="row">
         <label>
-          <span>メールアドレス <b>必須</b></span>
-          <input name="email" type="email" required autocomplete="email" maxlength="160" />
+          <span>電話番号</span>
+          <input name="tel" type="tel" autocomplete="tel" maxlength="30" inputmode="tel" />
         </label>
         <label>
-          <span>電話番号</span>
-          <input name="tel" type="tel" autocomplete="tel" maxlength="30" />
+          <span>メールアドレス</span>
+          <input name="email" type="email" autocomplete="email" maxlength="160" />
         </label>
       </div>
+      <p class="hint">電話番号かメールアドレスの、どちらか一方があれば大丈夫です。</p>
       <label>
         <span>ご相談の内容 <b>必須</b></span>
         <textarea name="message" rows="5" required maxlength="4000" placeholder="例）Googleマップの口コミはあるけれど、ホームページがありません。どのくらい費用がかかるか知りたいです。"></textarea>
@@ -47,8 +48,8 @@ import { site } from '../data/site';
         <span>この欄は空のままにしてください</span>
         <input name="website" tabindex="-1" autocomplete="off" />
       </label>
-      <p class="privacy">送信により<a href="/legal/privacy-policy/">プライバシーポリシー</a>に同意したものとみなします。</p>
-      <button class="btn" type="submit">送信する<span class="arrow" aria-hidden="true">→</span></button>
+      <p class="privacy">送信すると<a href="/legal/privacy-policy/">プライバシーポリシー</a>に同意したことになります。</p>
+      <button class="btn btn--star" type="submit">この内容で送る<span class="arrow" aria-hidden="true">→</span></button>
       <p class="status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -60,19 +61,25 @@ import { site } from '../data/site';
     e.preventDefault();
     const status = form.querySelector<HTMLElement>('.status')!;
     const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const data = new FormData(form);
+    if (!String(data.get('tel') || '').trim() && !String(data.get('email') || '').trim()) {
+      status.dataset.state = 'error';
+      status.textContent = '電話番号かメールアドレスのどちらかを入れてください。';
+      return;
+    }
     button.disabled = true;
-    status.textContent = '送信しています…';
     status.dataset.state = '';
+    status.textContent = '送っています…';
     try {
-      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || '送信に失敗しました。');
+      const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.error || '送れませんでした。');
       form.reset();
       status.dataset.state = 'ok';
-      status.textContent = '送信しました。2営業日以内に、豊田からご連絡します。';
+      status.textContent = '送りました。2営業日以内に、豊田からご連絡します。';
     } catch (err) {
       status.dataset.state = 'error';
-      status.textContent = `${(err as Error).message} お手数ですがメールでご連絡ください。`;
+      status.textContent = `${(err as Error).message} お手数ですがお電話でご連絡ください。`;
     } finally {
       button.disabled = false;
     }
@@ -80,28 +87,38 @@ import { site } from '../data/site';
 </script>
 
 <style>
-  .contact { background: linear-gradient(180deg, var(--bg) 0%, var(--amber-pale) 140%); }
-  .grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
-  .direct { margin-top: 40px; display: grid; gap: 18px; }
-  .direct div { border-top: 1px solid var(--hairline); padding-top: 14px; }
-  dt { font-size: 0.75rem; letter-spacing: 0.2em; color: var(--ink-muted); }
-  dd a { font-family: var(--font-display); font-size: 1.4rem; text-decoration: none; }
-  dd small { display: block; font-size: 0.8rem; color: var(--ink-muted); }
-  .form { background: var(--paper); border: 1px solid var(--hairline); border-radius: 24px; padding: clamp(24px, 4vw, 44px); display: grid; gap: 18px; box-shadow: 0 40px 80px -60px rgba(21, 17, 11, 0.5); }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  label { display: grid; gap: 6px; font-size: 0.85rem; font-weight: 500; }
-  label b { font-size: 0.68rem; background: var(--amber-deep); color: #fff; padding: 1px 6px; border-radius: 4px; margin-left: 6px; font-weight: 700; }
-  input, textarea {
-    width: 100%; border: 1px solid var(--hairline); border-radius: 12px; background: var(--bg);
-    padding: 13px 14px; font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s;
+  .contact { background: var(--forest); color: #fff; border-radius: 40px 40px 0 0; }
+  .contact .label { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.5); }
+  .contact .lead { color: var(--forest-ink); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: start; }
+  .call {
+    display: grid; margin-top: 32px; padding: 24px 28px; border-radius: 20px; text-decoration: none;
+    background: var(--star); color: var(--ink); box-shadow: 0 5px 0 #b98300; transition: transform 0.15s, box-shadow 0.15s;
   }
-  input:focus, textarea:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 4px color-mix(in oklab, var(--amber) 20%, transparent); }
+  .call:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #b98300; }
+  .call-label { font-weight: 700; font-size: 0.9rem; }
+  .call-num { font-weight: 900; font-size: clamp(2rem, 4.5vw, 2.8rem); line-height: 1.2; letter-spacing: 0.02em; }
+  .call-hours { font-size: 0.85rem; font-weight: 700; }
+  .mail { margin-top: 16px; font-size: 0.95rem; color: var(--forest-ink); }
+  .mail a { color: #fff; }
+
+  .form { background: var(--paper); color: var(--ink); border-radius: 28px; padding: clamp(24px, 4vw, 40px); display: grid; gap: 16px; }
+  .form-title { font-weight: 900; font-size: 1.3rem; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  label { display: grid; gap: 6px; font-size: 0.92rem; font-weight: 700; }
+  label b { font-size: 0.7rem; background: var(--alert); color: #fff; padding: 1px 6px; border-radius: 4px; margin-left: 6px; }
+  input, textarea { width: 100%; border: 2px solid var(--line); border-radius: 12px; background: #fff; padding: 13px 14px; font-size: 1.05rem; font-weight: 500; transition: border-color 0.2s, box-shadow 0.2s; }
+  input:focus, textarea:focus { outline: none; border-color: var(--forest); box-shadow: 0 0 0 4px color-mix(in oklab, var(--forest) 18%, transparent); }
+  .hint { font-size: 0.85rem; color: var(--ink-3); margin-top: -6px; }
   .hp { position: absolute; left: -9999px; }
-  .privacy { font-size: 0.78rem; color: var(--ink-muted); }
-  .form .btn { justify-self: start; }
+  .privacy { font-size: 0.82rem; color: var(--ink-3); }
+  .form .btn { width: 100%; }
   .form .btn:disabled { opacity: 0.6; cursor: wait; }
-  .status { font-size: 0.9rem; min-height: 1.5em; }
-  .status[data-state='ok'] { color: #2f7a4a; }
-  .status[data-state='error'] { color: #b3261e; }
-  @media (max-width: 860px) { .grid, .row { grid-template-columns: 1fr; } }
+  .status { font-size: 0.95rem; font-weight: 700; min-height: 1.5em; }
+  .status[data-state='ok'] { color: var(--forest-2); }
+  .status[data-state='error'] { color: var(--alert); }
+  @media (max-width: 860px) {
+    .contact { border-radius: 28px 28px 0 0; }
+    .grid, .row { grid-template-columns: 1fr; }
+  }
 </style>

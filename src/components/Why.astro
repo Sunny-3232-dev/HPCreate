@@ -4,7 +4,7 @@ const steps = [
   {
     label: 'いま',
     t: '地図と口コミだけ',
-    d: '★と口コミは並んでいます。でも、料金もメニューも、どんな人がやっているのかも分かりません。比べている人は、情報が多い隣のお店を開きます。',
+    d: '★と口コミは並んでいます。でも料金もメニューも、どんな人がやっているのかも分かりません。比べている人は、情報が多い隣のお店を開きます。',
   },
   {
     label: '作ったあと',
@@ -14,25 +14,27 @@ const steps = [
   {
     label: 'そうすると',
     t: '知りたいことに、答えられる',
-    d: '料金の目安、実際の仕事、店主の考え、お客さんの声。ここまで分かれば、電話や予約をためらう理由が一つ減ります。',
+    d: '料金の目安、実際の仕事、店主の考え、お客さんの声。ここまで分かれば、電話や予約をためらう理由がひとつ減ります。',
   },
 ];
 ---
 <section id="why" class="section why">
-  <div class="container intro">
-    <p class="eyebrow">なぜホームページか</p>
-    <h2 class="h-sec" data-split>口コミを読んだ人が、<br />次に探すもの。</h2>
+  <div class="container head">
+    <div>
+      <p class="label">なぜ必要か</p>
+      <h2 class="h2" data-split>口コミを読んだ人が、<br />次に探すもの。</h2>
+    </div>
     <p class="lead reveal">
-      小さな事業者のうち、ホームページを持っているのはおよそ半分だそうです（中小企業白書ほか）。持っていないお店の多くは、腕も評判も十分。足りないのは「もう少しくわしく知りたい」人への答えだけ、ということがよくあります。
+      小さな事業者のうち、ホームページを持っているのはおよそ半分です（中小企業白書ほか）。持っていないお店の多くは、腕も評判も十分。足りないのは「もう少しくわしく知りたい」人への答えだけ、ということがよくあります。
     </p>
   </div>
 
   <div class="story" data-search-story>
     <div class="container story-grid">
       <ol class="steps">
-        {steps.map((s) => (
+        {steps.map((s, i) => (
           <li data-step>
-            <span class="no">{s.label}</span>
+            <span class="no"><b>{i + 1}</b>{s.label}</span>
             <h3>{s.t}</h3>
             <p>{s.d}</p>
           </li>
@@ -41,9 +43,7 @@ const steps = [
       <div class="phone" aria-label="Google検索結果の変化のイメージ" role="img">
         <div class="screen">
           <div class="search"><span>宇都宮 割烹 個室</span></div>
-          <div class="map" data-layer="0">
-            <span class="pin"></span>
-          </div>
+          <div class="map" data-layer="0"><span class="pin"></span></div>
           <div class="card" data-layer="0">
             <p class="shop">割烹 ささめ（例）</p>
             <p class="stars">4.7 ★★★★★ <span>(88)</span></p>
@@ -70,27 +70,28 @@ const steps = [
 </section>
 
 <style>
-  .why { background: var(--paper); }
-  .intro .lead { max-width: 36em; }
+  .why { background: var(--paper); border-radius: 40px 40px 0 0; }
+  .head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px 64px; align-items: end; }
+  .head .lead { margin-top: 0; }
 
-  .story { margin-top: clamp(48px, 8vw, 96px); }
+  .story { margin-top: clamp(40px, 6vw, 72px); }
   .story-grid { display: grid; grid-template-columns: 1fr 360px; gap: clamp(32px, 6vw, 96px); align-items: center; min-height: 100vh; }
-  .steps { list-style: none; display: grid; gap: 28px; }
-  .steps li { opacity: 0.35; transition: opacity 0.5s var(--ease-out); padding-left: 20px; border-left: 2px solid var(--hairline); }
-  .steps li:global(.is-active) { opacity: 1; border-left-color: var(--amber); }
-  .no { font-size: 0.8rem; font-weight: 700; color: var(--amber-deep); }
-  .steps h3 { font-family: var(--font-serif); font-size: clamp(1.2rem, 2.2vw, 1.5rem); margin-top: 2px; line-height: 1.5; }
-  .steps p { color: var(--ink-soft); margin-top: 8px; font-size: 0.95rem; }
-
-  .phone { width: 100%; max-width: 360px; aspect-ratio: 9 / 18.5; border-radius: 40px; background: #222; padding: 10px; box-shadow: 0 30px 60px -30px rgba(21, 17, 11, 0.45); justify-self: center; }
-  .screen { position: relative; height: 100%; border-radius: 31px; background: #fff; overflow: hidden; font-family: system-ui, sans-serif; letter-spacing: 0; }
-  .search { margin: 44px 14px 0; border-radius: 99px; background: #f1f3f4; padding: 10px 16px; font-size: 0.8rem; color: #3c4043; }
-  .map {
-    height: 34%; margin-top: 12px;
-    background: repeating-linear-gradient(35deg, #e8eef0 0 2px, transparent 2px 28px), repeating-linear-gradient(-55deg, #e8eef0 0 2px, transparent 2px 36px), #f6f8f6;
-    position: relative;
+  .steps { list-style: none; display: grid; gap: 16px; }
+  .steps li {
+    padding: 24px 28px; border-radius: var(--radius); background: var(--stone);
+    opacity: 0.45; transition: opacity 0.4s var(--ease-out), background 0.4s, transform 0.4s var(--ease-out);
   }
-  .pin { position: absolute; left: 50%; top: 45%; width: 22px; height: 22px; background: #d93025; border-radius: 50% 50% 50% 0; transform: translate(-50%, -50%) rotate(-45deg); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+  .steps li:global(.is-active) { opacity: 1; background: var(--forest); color: #fff; transform: translateX(8px); }
+  .no { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; }
+  .no b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--star); color: var(--ink); font-size: 0.8rem; }
+  .steps h3 { font-weight: 900; font-size: clamp(1.25rem, 2.2vw, 1.55rem); margin-top: 8px; line-height: 1.45; }
+  .steps p { margin-top: 6px; font-size: 0.98rem; opacity: 0.9; }
+
+  .phone { width: 100%; max-width: 360px; aspect-ratio: 9 / 18.5; border-radius: 44px; background: var(--ink); padding: 10px; box-shadow: 0 30px 60px -30px rgba(23, 32, 27, 0.5); justify-self: center; }
+  .screen { position: relative; height: 100%; border-radius: 35px; background: #fff; overflow: hidden; font-family: system-ui, sans-serif; letter-spacing: 0; }
+  .search { margin: 44px 14px 0; border-radius: 99px; background: #f1f3f4; padding: 10px 16px; font-size: 0.8rem; color: #3c4043; }
+  .map { height: 34%; margin-top: 12px; position: relative; background: repeating-linear-gradient(35deg, #e8eef0 0 2px, transparent 2px 28px), repeating-linear-gradient(-55deg, #e8eef0 0 2px, transparent 2px 36px), #f6f8f6; }
+  .pin { position: absolute; left: 50%; top: 45%; width: 22px; height: 22px; background: #d93025; border-radius: 50% 50% 50% 0; transform: translate(-50%, -50%) rotate(-45deg); }
   .card { padding: 16px; }
   .shop { font-size: 1.05rem; font-weight: 600; color: #202124; }
   .stars { font-size: 0.8rem; color: #e37400; margin-top: 2px; }
@@ -102,8 +103,8 @@ const steps = [
   .photos i { aspect-ratio: 1; border-radius: 6px; background: linear-gradient(135deg, #3a332b, #c29b5a); }
   .photos i:nth-child(2) { background: linear-gradient(135deg, #7b5a3a, #efe8da); }
   .photos i:nth-child(3) { background: linear-gradient(135deg, #1c1a17, #8a6d45); }
-  .site { position: absolute; inset: 0; background: #161513; color: #efe8da; padding: 64px 22px 22px; display: flex; flex-direction: column; }
-  .site-catch { font-family: var(--font-serif); font-size: 1.7rem; line-height: 1.4; }
+  .site { position: absolute; inset: 0; background: #161513; color: #efe8da; padding: 64px 22px 22px; display: flex; flex-direction: column; font-family: var(--font); }
+  .site-catch { font-size: 1.6rem; font-weight: 900; line-height: 1.4; }
   .site ul { list-style: none; margin-top: 24px; display: grid; gap: 10px; font-size: 0.85rem; }
   .site li { border-bottom: 1px solid rgba(239, 232, 218, 0.15); padding-bottom: 10px; }
   .book { margin-top: auto; text-align: center; background: #c29b5a; color: #161513; border-radius: 99px; padding: 12px; font-weight: 700; font-size: 0.9rem; }
@@ -117,7 +118,10 @@ const steps = [
   .site:global(.is-on) { clip-path: circle(150% at 80% 90%); }
 
   @media (max-width: 899px) {
+    .why { border-radius: 28px 28px 0 0; }
+    .head { grid-template-columns: 1fr; }
     .story-grid { grid-template-columns: 1fr; min-height: 0; }
+    .steps li { opacity: 1; background: var(--stone); color: var(--ink); transform: none !important; }
     .phone { max-width: 300px; }
   }
 </style>

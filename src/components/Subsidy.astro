@@ -1,20 +1,24 @@
 <section class="subsidy">
-  <div class="container inner reveal">
-    <h2 class="title">補助金が使えることもあります</h2>
-    <div class="body">
-      <p>
-        「小規模事業者持続化補助金」では、販路開拓のためのホームページ制作費が対象になる場合があります。使えそうかどうかの確認と、申請の進め方もご案内します。
-      </p>
-      <p class="note">補助率や上限額は公募の回ごとに変わります。採択を約束するものではありません。</p>
+  <div class="container">
+    <div class="box reveal">
+      <span class="tag">補助金</span>
+      <div>
+        <h2 class="title">費用の一部に、補助金が使えることもあります</h2>
+        <p>
+          「小規模事業者持続化補助金」では、販路を広げるためのホームページ制作費が対象になる場合があります。使えそうかどうかの確認と、申請の進め方もご案内します。
+        </p>
+        <p class="note">補助率や上限額は公募の回ごとに変わります。採択を約束するものではありません。</p>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .subsidy { padding-block: 56px; background: var(--bg-soft); border-block: 1px solid var(--hairline); }
-  .inner { display: grid; grid-template-columns: 0.9fr 1.3fr; gap: 40px; align-items: start; }
-  .title { font-family: var(--font-serif); font-size: clamp(1.25rem, 2.4vw, 1.7rem); line-height: 1.55; }
-  .body p { color: var(--ink-soft); font-size: 0.95rem; }
-  .note { font-size: 0.8rem !important; margin-top: 10px; color: var(--ink-muted) !important; }
-  @media (max-width: 860px) { .inner { grid-template-columns: 1fr; gap: 12px; } }
+  .subsidy { background: var(--stone); padding-bottom: clamp(80px, 11vw, 140px); }
+  .box { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: start; padding: clamp(24px, 4vw, 40px); border-radius: var(--radius); background: var(--star-soft); }
+  .tag { font-weight: 900; background: var(--ink); color: var(--star); border-radius: 10px; padding: 6px 14px; }
+  .title { font-weight: 900; font-size: clamp(1.2rem, 2.4vw, 1.5rem); line-height: 1.5; }
+  p { color: var(--ink-2); margin-top: 8px; }
+  .note { font-size: 0.85rem; color: var(--ink-3); }
+  @media (max-width: 640px) { .box { grid-template-columns: 1fr; gap: 12px; } .tag { justify-self: start; } }
 </style>

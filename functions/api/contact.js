@@ -22,10 +22,13 @@ export async function onRequestPost({ request, env }) {
   for (const [key, max] of Object.entries(LIMITS)) {
     data[key] = String(form.get(key) || '').trim().slice(0, max);
   }
-  if (!data.name || !data.email || !data.message) {
-    return json({ error: 'お名前・メールアドレス・ご相談内容は必須です。' }, 400);
+  if (!data.name || !data.message) {
+    return json({ error: 'お名前とご相談の内容を入れてください。' }, 400);
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+  if (!data.email && !data.tel) {
+    return json({ error: '電話番号かメールアドレスのどちらかを入れてください。' }, 400);
+  }
+  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     return json({ error: 'メールアドレスの形式をご確認ください。' }, 400);
   }
 
@@ -37,7 +40,7 @@ export async function onRequestPost({ request, env }) {
     '【SunConnect お問い合わせ】',
     `お名前：${data.name}`,
     `屋号：${data.shop || '-'}`,
-    `メール：${data.email}`,
+    `メール：${data.email || '-'}`,
     `電話：${data.tel || '-'}`,
     '',
     data.message,

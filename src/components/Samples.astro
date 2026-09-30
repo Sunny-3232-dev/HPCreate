@@ -4,11 +4,13 @@ import SampleMock from './SampleMock.astro';
 ---
 <section id="samples" class="section samples">
   <div class="container head">
-    <p class="eyebrow">サンプル</p>
-    <h2 class="h-sec" data-split>業種がちがえば、<br />似合う見た目もちがいます。</h2>
+    <div>
+      <p class="label">サンプル</p>
+      <h2 class="h2" data-split>業種がちがえば、<br />似合う見た目もちがいます。</h2>
+    </div>
     <p class="lead">
-      割烹と整備工場では、来るお客さんも、知りたいことも別です。色や文字、言葉づかいはお店ごとに決めます。<br />
-      <strong>ここに載せているのは、すべて架空のお店で作った見本です。</strong>
+      割烹と整備工場では、来るお客さんも、知りたいことも別です。色や文字、言葉づかいはお店ごとに決めます。
+      <strong>ここに載せているのは、すべて架空のお店の見本です。</strong>
     </p>
   </div>
   <div class="hwrap" data-hscroll>
@@ -17,14 +19,15 @@ import SampleMock from './SampleMock.astro';
         <li>
           <a href={`/samples/${s.slug}/`} class="card" aria-label={`${s.name}（${s.kind}）のサンプルを見る`}>
             <SampleMock sample={s} />
-            <span class="label">{s.kind}<span aria-hidden="true">↗</span></span>
+            <span class="cap">{s.kind}<span aria-hidden="true">見る →</span></span>
           </a>
         </li>
       ))}
-      <li class="yours">
+      <li>
         <a href="#contact" class="card slot">
-          <span>あなたのお店の<br />サンプルも作れます。</span>
-          <small>相談してみる →</small>
+          <span class="slot-pin" aria-hidden="true"></span>
+          <span class="slot-t">あなたのお店の<br />サンプルも作れます</span>
+          <span class="slot-s">無料・ご相談時にお見せします →</span>
         </a>
       </li>
     </ul>
@@ -32,34 +35,35 @@ import SampleMock from './SampleMock.astro';
 </section>
 
 <style>
-  .samples { background: #1d1a16; color: #efe8da; overflow: hidden; }
-  .samples .lead { color: #c9c0b0; }
-  .samples .lead strong { color: var(--amber-light); font-weight: 500; }
-  .samples .h-sec em { color: var(--amber-light); }
+  .samples { background: var(--forest); color: #fff; overflow: hidden; }
+  .samples .label { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.5); }
+  .head { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px 64px; align-items: end; }
+  .samples .lead { color: var(--forest-ink); margin-top: 0; }
+  .samples .lead strong { display: block; margin-top: 8px; color: var(--star); }
   .hwrap { margin-top: 56px; }
   .track {
-    list-style: none; display: flex; gap: clamp(16px, 2.4vw, 32px);
+    list-style: none; display: flex; gap: 24px; width: max-content;
     padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
-    width: max-content;
   }
-  .track li { width: clamp(260px, 26vw, 340px); flex: none; }
+  .track li { width: clamp(270px, 25vw, 330px); flex: none; }
   .card { display: block; text-decoration: none; color: inherit; }
-  .card :global(.mock) { transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out); }
+  .card :global(.mock) { transition: transform 0.5s var(--ease-out); }
   .card:hover :global(.mock) { transform: translateY(-8px) rotate(-1deg); }
-  .label { display: flex; justify-content: space-between; margin-top: 14px; font-size: 0.88rem; color: #c9c0b0; }
+  .cap { display: flex; justify-content: space-between; margin-top: 14px; font-weight: 700; }
+  .cap span { color: var(--star); }
   .slot {
-    aspect-ratio: 4 / 5; border: 1px dashed rgba(239, 232, 218, 0.35); border-radius: 14px;
-    display: flex; flex-direction: column; justify-content: center; padding: 32px; gap: 16px;
-    transition: background 0.4s, border-color 0.4s;
+    aspect-ratio: 4 / 5; border-radius: 16px; background: var(--star); color: var(--ink);
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; gap: 10px; position: relative;
+    transition: transform 0.4s var(--ease-out);
   }
-  .slot span { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.5; }
-  .slot small { color: var(--amber-light); font-size: 0.85rem; }
-  .slot:hover { background: rgba(232, 146, 60, 0.08); border-color: var(--amber); }
-
-  /* スマホ・タブレット：ネイティブの横スワイプ＋スナップ */
+  .slot:hover { transform: translateY(-8px); }
+  .slot-pin { position: absolute; top: 28px; left: 28px; width: 56px; height: 68px; background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 48'%3E%3Cpath d='M20 47S3 29.5 3 18.5a17 17 0 0 1 34 0C37 29.5 20 47 20 47Z' fill='%231e4a38'/%3E%3Ccircle cx='20' cy='18.5' r='7' fill='%23f3b21b'/%3E%3C/svg%3E"); }
+  .slot-t { font-weight: 900; font-size: 1.6rem; line-height: 1.35; }
+  .slot-s { font-weight: 700; font-size: 0.9rem; }
   @media (max-width: 899px) {
+    .head { grid-template-columns: 1fr; }
     .hwrap { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 8px; }
     .hwrap::-webkit-scrollbar { display: none; }
-    .track li { scroll-snap-align: center; width: 76vw; max-width: 320px; }
+    .track li { scroll-snap-align: center; width: 78vw; max-width: 320px; }
   }
 </style>

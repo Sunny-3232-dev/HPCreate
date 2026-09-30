@@ -166,10 +166,31 @@ function parallax() {
   });
 }
 
+
+// ヒーローの地図：道が描かれ、ピンが落ち、注目のお店が「ウェブサイトなし→あり」に変わる
+function heroMap() {
+  const map = document.querySelector<HTMLElement>('[data-hero-map]');
+  if (!map) return;
+  if (reduce) {
+    map.classList.add('is-done');
+    return;
+  }
+  const lines = map.querySelectorAll('.streets path:not(.rail)');
+  const pins = map.querySelectorAll('[data-pin]');
+  const card = map.querySelector('[data-card]');
+  const tl = gsap.timeline({ delay: 0.2 });
+  tl.from(lines, { strokeDashoffset: 1, duration: 1.4, ease: 'power2.inOut', stagger: 0.012 })
+    .from(pins, { y: -60, opacity: 0, duration: 0.7, ease: 'bounce.out', stagger: 0.08 }, '-=0.9')
+    .from(card, { scale: 0.4, opacity: 0, duration: 0.6, ease: 'back.out(1.8)' }, '-=0.2')
+    .add(() => map.classList.add('is-done'), '+=0.9')
+    .fromTo(card, { scale: 1 }, { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, ease: 'power1.out' }, '<');
+}
+
 export function initMotion() {
   smoothScroll();
   revealFallback();
   header();
+  heroMap();
   document.fonts.ready.then(() => {
     splitHeadings();
     countUp();

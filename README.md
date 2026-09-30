@@ -2,7 +2,7 @@
 
 宇都宮のWeb制作スタジオ SunConnect のコーポレートサイト。Astro（静的出力）＋ Cloudflare Pages。
 
-事業計画は [`docs/PLAN.md`](docs/PLAN.md)、営業候補の一次リストは [`docs/CANDIDATES.md`](docs/CANDIDATES.md)。
+デザインの評価と一新の方針は [`docs/REVIEW.md`](docs/REVIEW.md)。事業計画は [`docs/PLAN.md`](docs/PLAN.md)、営業候補の一次リストは [`docs/CANDIDATES.md`](docs/CANDIDATES.md)。
 
 ## コマンド
 
@@ -24,7 +24,6 @@ src/
   components/         トップページの各セクション
   pages/              / ・ /samples/[slug]/ ・ /legal/*
   scripts/motion.ts   GSAP・Lenis によるモーション
-  scripts/sun.ts      ヒーローの WebGL シェーダ（OGL）
   styles/global.css   デザイントークン・CSS scroll-driven animations・View Transitions
 functions/api/contact.js  お問い合わせフォームの受け口（Pages Function）
 ```
@@ -33,18 +32,18 @@ functions/api/contact.js  お問い合わせフォームの受け口（Pages Fun
 
 | 演出 | 技術 |
 |---|---|
-| ヒーローの朝陽（揺らぎ・ポインタ追従・スクロールで昇る） | WebGL フラグメントシェーダ（OGL） |
+| ヒーローの地図（道が描かれ、ピンが落ち、お店が「ウェブサイトなし→あり」に変わる） | SVG ＋ GSAP タイムライン |
 | 見出しが1文字ずつ立ち上がる | GSAP SplitText |
 | Google検索結果の Before/After（画面固定で切り替え）、サンプルの横スクロール | GSAP ScrollTrigger |
 | 慣性スクロール | Lenis |
+| 地図がスクロールで奥へ下がる、進め方の道が伸びる | CSS Scroll-driven Animations |
 | 要素のフェードイン、読了プログレスバー、線画モチーフが描かれる、流れのタイムラインが伸びる | CSS Scroll-driven Animations（`animation-timeline: view()` / `scroll()`） |
 | サンプル一覧から詳細ページへの遷移 | Cross-document View Transitions（`@view-transition`） |
 | モバイルメニュー開閉 | Popover API ＋ `@starting-style` |
 | FAQ の開閉 | `::details-content` ＋ `interpolate-size` |
 | 日本語見出しの自然な改行 | `word-break: auto-phrase` |
 
-- `prefers-reduced-motion: reduce` の環境では、WebGL・慣性スクロール・文字アニメーションを止め、すべて静止した状態で表示する
-- WebGL が使えない環境では CSS の太陽（静止版）にフォールバックする
+- `prefers-reduced-motion: reduce` の環境では、地図の演出・慣性スクロール・文字アニメーションを止め、すべて完成した状態で表示する
 - CSS Scroll-driven Animations 非対応ブラウザでは IntersectionObserver で代替する
 
 ## 公開前チェック

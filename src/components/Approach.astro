@@ -1,56 +1,55 @@
 ---
 const doList = [
-  ['お店に伺って、写真を撮ります', '宇都宮近郊なら車で伺います。撮るのはスマホで10枚ほど。店内、仕事の様子、店主さんの顔。'],
-  ['口コミを読んでから、文章を書きます', 'お客さんが書いてくれた「良かったところ」が、いちばん伝わる言葉です。原稿を用意してもらう必要はありません。'],
-  ['Googleマップの登録情報も直します', '営業時間、写真、ホームページのリンク。ここが揃っているだけで、見られ方がかなり変わります。'],
+  { t: 'お店に伺って、写真を撮ります', d: '宇都宮近郊なら車で伺います。撮るのは10枚ほど。店内、仕事の様子、店主さんの顔。', icon: 'camera' },
+  { t: '口コミを読んでから、文章を書きます', d: 'お客さんが書いてくれた「良かったところ」が、いちばん伝わる言葉です。原稿を用意していただく必要はありません。', icon: 'pen' },
+  { t: 'Googleマップの情報も直します', d: '営業時間、写真、ホームページのリンク。ここが揃うだけで、見られ方がかなり変わります。', icon: 'pin' },
 ];
-const dontList = [
-  '毎月の広告費や、成果報酬のご提案',
-  '何年も解約できない契約',
-  'カタカナの専門用語だらけの説明',
-];
+const dontList = ['毎月の広告費や、成果報酬のご提案', '何年も解約できない契約', 'カタカナの専門用語だらけの説明'];
 ---
 <section class="section approach">
-  <div class="container grid">
-    <div class="head">
-      <p class="eyebrow">やること、やらないこと</p>
-      <h2 class="h-sec" data-split>文章も写真も、<br />こちらで用意します。</h2>
-    </div>
-    <div>
-      <ol class="do">
-        {doList.map(([t, d]) => (
-          <li class="reveal">
-            <h3>{t}</h3>
-            <p>{d}</p>
-          </li>
-        ))}
-      </ol>
-      <div class="dont reveal">
-        <p class="dont-title">やらないこと</p>
+  <div class="container">
+    <p class="label">やること・やらないこと</p>
+    <h2 class="h2" data-split>文章も写真も、<br />こちらで用意します。</h2>
+    <div class="bento">
+      {doList.map((it, i) => (
+        <article class:list={['cell', 'reveal', `c${i}`]}>
+          <span class="icon" aria-hidden="true">
+            {it.icon === 'camera' && <svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>}
+            {it.icon === 'pen' && <svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16z" /><path d="M14 7l3 3" /></svg>}
+            {it.icon === 'pin' && <svg viewBox="0 0 24 24"><path d="M12 21s-7-7-7-12a7 7 0 0 1 14 0c0 5-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>}
+          </span>
+          <h3>{it.t}</h3>
+          <p>{it.d}</p>
+        </article>
+      ))}
+      <article class="cell dont reveal">
+        <h3>やらないこと</h3>
         <ul>
           {dontList.map((d) => <li>{d}</li>)}
         </ul>
-      </div>
+      </article>
     </div>
   </div>
 </section>
 
 <style>
-  .grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 96px); }
-  .head { position: sticky; top: 120px; align-self: start; }
-  .do { list-style: none; counter-reset: n; }
-  .do li { counter-increment: n; padding: 28px 0 28px 52px; border-top: 1px solid var(--hairline); position: relative; }
-  .do li::before {
-    content: counter(n); position: absolute; left: 0; top: 30px;
-    width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--paper);
-    display: grid; place-items: center; font-size: 0.85rem; font-weight: 700;
+  .approach { background: var(--stone); }
+  .bento { display: grid; grid-template-columns: repeat(3, 1fr); grid-auto-rows: auto; gap: 16px; margin-top: 48px; }
+  .cell { border-radius: var(--radius); padding: 30px 28px; background: var(--paper); }
+  .c0 { grid-column: span 2; background: var(--forest); color: #fff; }
+  .c0 p { color: var(--forest-ink); }
+  .c2 { grid-column: span 2; }
+  .icon { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: var(--star); }
+  .icon svg { width: 28px; height: 28px; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round; }
+  h3 { font-weight: 900; font-size: 1.3rem; line-height: 1.45; margin-top: 18px; }
+  p { color: var(--ink-2); margin-top: 8px; }
+  .dont { background: transparent; border: 2px dashed var(--line); }
+  .dont h3 { margin-top: 0; }
+  .dont ul { list-style: none; margin-top: 12px; display: grid; gap: 8px; }
+  .dont li { padding-left: 1.6em; position: relative; color: var(--ink-2); }
+  .dont li::before { content: '×'; position: absolute; left: 0; font-weight: 900; color: var(--alert); }
+  @media (max-width: 860px) {
+    .bento { grid-template-columns: 1fr; }
+    .c0, .c2 { grid-column: auto; }
   }
-  h3 { font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.5; }
-  .do p { color: var(--ink-soft); font-size: 0.95rem; margin-top: 8px; }
-  .dont { margin-top: 24px; padding: 24px 28px; background: var(--bg-soft); border-radius: 12px; }
-  .dont-title { font-weight: 700; font-size: 0.9rem; }
-  .dont ul { list-style: none; margin-top: 8px; display: grid; gap: 4px; }
-  .dont li { color: var(--ink-soft); font-size: 0.93rem; padding-left: 1.4em; position: relative; }
-  .dont li::before { content: '×'; position: absolute; left: 0; color: var(--amber-deep); font-weight: 700; }
-  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .head { position: static; } }
 </style>

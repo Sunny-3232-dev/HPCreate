@@ -1,11 +1,12 @@
 ---
 import { site } from '../data/site';
+import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 ---
 <footer class="footer">
   <div class="container grid">
     <div>
-      <p class="brand">{site.name}</p>
+      <p class="brand"><Logo size={26} tone="light" />{site.name}</p>
       <p class="muted">
         {site.city}<br />
         {site.tel && <>電話 <a href={`tel:${site.tel.replace(/-/g, '')}`}>{site.tel}</a>（{site.hours}）<br /></>}
@@ -15,7 +16,7 @@ const year = new Date().getFullYear();
     <nav aria-label="フッター">
       <a href="/#samples">サンプル</a>
       <a href="/#plans">料金</a>
-      <a href="/#contact">お問い合わせ</a>
+      <a href="/#contact">ご相談</a>
       <a href="/legal/specified-commercial-transaction/">特定商取引法に基づく表記</a>
       <a href="/legal/privacy-policy/">プライバシーポリシー</a>
     </nav>
@@ -24,14 +25,14 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .footer { background: #1d1a16; color: #e9e2d3; padding-block: 64px 32px; }
+  .footer { background: #12251c; color: #dfe8e2; padding-block: 56px 28px; }
   .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; }
-  .brand { font-family: var(--font-serif); font-size: 1.4rem; font-weight: 700; }
-  .muted { color: #b3aa9b; font-size: 0.9rem; margin-top: 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 1.3rem; }
+  .muted { color: #a9bcb1; font-size: 0.92rem; margin-top: 14px; }
   .muted a { color: inherit; }
-  nav { display: grid; gap: 8px; font-size: 0.9rem; }
-  nav a { text-decoration: none; color: #d7cfbf; }
-  nav a:hover { color: var(--amber-light); }
-  .copy { font-size: 0.78rem; color: #8a8173; margin-top: 48px; }
+  nav { display: grid; gap: 8px; font-size: 0.92rem; }
+  nav a { text-decoration: none; color: #dfe8e2; }
+  nav a:hover { color: var(--star); }
+  .copy { font-size: 0.8rem; color: #7f978a; margin-top: 44px; }
   @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
 </style>
