@@ -1,0 +1,61 @@
+---
+import { plans, yen } from '../data/site';
+---
+<section id="plans" class="section plans">
+  <div class="container">
+    <p class="eyebrow">Pricing</p>
+    <h2 class="h-sec" data-split>小さく始めて、<br /><em>確かに育てる</em>料金。</h2>
+    <p class="lead">価格はすべて税抜です。制作費は着手時50%・公開時50%の分割払い。月額保守は任意です。</p>
+    <div class="grid">
+      {plans.map((p) => (
+        <article class:list={['plan', 'reveal', { featured: 'featured' in p && p.featured }]}>
+          {'featured' in p && p.featured && <p class="badge">いちばん選ばれています</p>}
+          <h3>{p.name}</h3>
+          <p class="price">
+            {yen(p.price)}
+            <small>{'from' in p && p.from ? '〜' : ''}</small>
+          </p>
+          <p class="monthly">月額保守 {yen(p.monthly)}〜</p>
+          <p class="summary">{p.summary}</p>
+          <ul>
+            {p.features.map((f) => <li>{f}</li>)}
+          </ul>
+          <a class:list={['btn', { 'btn--ghost': !('featured' in p && p.featured) }]} href="#contact">このプランで相談する</a>
+        </article>
+      ))}
+    </div>
+    <p class="note">予約システム・EC・会員機能などは個別にお見積りします。</p>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 56px; align-items: stretch; }
+  .plan { position: relative; display: flex; flex-direction: column; padding: 32px 24px; border-radius: 20px; background: var(--paper); border: 1px solid var(--hairline); }
+  .featured {
+    background: var(--ink); color: var(--paper); border-color: var(--ink);
+    transform: translateY(-12px); box-shadow: 0 40px 80px -40px rgba(184, 98, 26, 0.7);
+  }
+  .featured::after {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: conic-gradient(from var(--angle), transparent 0 70%, var(--amber) 85%, transparent 100%);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: spin 6s linear infinite;
+  }
+  @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+  @keyframes spin { to { --angle: 360deg; } }
+  .badge { position: absolute; top: -13px; left: 24px; background: var(--amber); color: var(--ink); font-size: 0.72rem; font-weight: 700; padding: 3px 12px; border-radius: 99px; letter-spacing: 0.08em; }
+  h3 { font-family: var(--font-serif); font-size: 1.2rem; }
+  .price { font-family: var(--font-display); font-size: 2.3rem; margin-top: 14px; line-height: 1; letter-spacing: -0.01em; }
+  .price small { font-size: 0.5em; }
+  .monthly { font-size: 0.8rem; margin-top: 8px; color: var(--amber-deep); font-weight: 700; }
+  .featured .monthly { color: var(--amber-light); }
+  .summary { font-size: 0.88rem; margin-top: 16px; opacity: 0.85; }
+  ul { list-style: none; margin: 20px 0 28px; display: grid; gap: 8px; font-size: 0.85rem; }
+  li { padding-left: 22px; position: relative; }
+  li::before { content: ''; position: absolute; left: 0; top: 0.72em; width: 12px; height: 1px; background: var(--amber); }
+  .plan .btn { margin-top: auto; justify-content: center; font-size: 0.85rem; padding: 13px 18px; }
+  .featured .btn { --btn-bg: var(--amber); --btn-fg: var(--ink); }
+  .note { margin-top: 28px; font-size: 0.85rem; color: var(--ink-muted); }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } .featured { transform: none; } }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+</style>

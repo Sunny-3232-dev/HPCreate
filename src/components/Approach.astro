@@ -1,0 +1,52 @@
+---
+const items = [
+  {
+    k: '01',
+    t: '口コミから、設計する。',
+    d: 'お客様がすでに書いてくれている「良いところ」が、いちばん強い言葉です。Googleの口コミを読み込み、選ばれている理由を見出しと構成に落とし込みます。',
+  },
+  {
+    k: '02',
+    t: '伺って、撮って、聞く。',
+    d: '宇都宮近郊なら直接お店へ伺います。スマホで10カット前後を撮影し、30分ほどお話を聞くだけ。原稿を書く手間はかけさせません。',
+  },
+  {
+    k: '03',
+    t: '公開してからが、本番。',
+    d: 'Googleビジネスプロフィールの更新、口コミへの返信のコツ、アクセスの振り返り。月額の保守で、小さな改善を積み重ねます。',
+  },
+];
+---
+<section class="section approach">
+  <div class="container">
+    <p class="eyebrow">Approach</p>
+    <h2 class="h-sec" data-split>テンプレートではなく、<br /><em>お店の物語</em>を編みます。</h2>
+    <div class="list">
+      {items.map((it) => (
+        <article class="item reveal">
+          <span class="k">{it.k}</span>
+          <h3>{it.t}</h3>
+          <p>{it.d}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .list { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.4vw, 32px); margin-top: 64px; }
+  .item {
+    position: relative; padding: 36px 28px 32px; border-radius: 20px; background: var(--paper);
+    border: 1px solid var(--hairline); overflow: hidden; isolation: isolate;
+  }
+  .item::before {
+    content: ''; position: absolute; inset: auto -30% -60% auto; width: 80%; aspect-ratio: 1; border-radius: 50%; z-index: -1;
+    background: radial-gradient(circle, var(--amber-pale), transparent 70%);
+    transition: transform 0.8s var(--ease-out);
+  }
+  .item:hover::before { transform: translate(-20%, -30%) scale(1.3); }
+  .k { font-family: var(--font-display); font-style: italic; font-size: 2.6rem; color: var(--amber); line-height: 1; }
+  h3 { font-family: var(--font-serif); font-size: 1.35rem; margin-top: 20px; line-height: 1.5; }
+  p { color: var(--ink-soft); font-size: 0.93rem; margin-top: 12px; }
+  @media (max-width: 860px) { .list { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,95 @@
+---
+import { site } from '../data/site';
+const nav = [
+  { href: '/#why', label: 'なぜHPが必要か' },
+  { href: '/#samples', label: '提案サンプル' },
+  { href: '/#plans', label: '料金' },
+  { href: '/#flow', label: '流れ' },
+  { href: '/#faq', label: 'よくある質問' },
+];
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/" aria-label={`${site.name} トップへ`}>
+      <span class="mark" aria-hidden="true"></span>
+      <span class="name">{site.name}<small>{site.nameJa}</small></span>
+    </a>
+    <nav class="nav" aria-label="メイン">
+      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+    </nav>
+    <a class="btn cta" href="/#contact" data-magnetic>無料相談<span class="arrow" aria-hidden="true">→</span></a>
+    <button class="menu-btn" type="button" popovertarget="mobile-menu" aria-label="メニューを開く">
+      <span></span><span></span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="mobile-menu" popover>
+    <nav aria-label="モバイル">
+      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+      <a class="btn" href="/#contact">無料相談を申し込む →</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // モバイルメニューはリンクを押したら閉じる
+  const menu = document.getElementById('mobile-menu');
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.hidePopover()));
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    transition: transform 0.45s var(--ease-out), background 0.3s, box-shadow 0.3s;
+  }
+  .site-header:global(.is-scrolled) {
+    background: color-mix(in oklab, var(--bg) 82%, transparent);
+    backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: 0 1px 0 var(--hairline);
+  }
+  .site-header:global(.is-hidden) { transform: translateY(-100%); }
+  .bar { display: flex; align-items: center; gap: 24px; height: 72px; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-right: auto; }
+  .mark {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffe2bc, var(--amber) 55%, var(--amber-deep));
+    box-shadow: 0 0 0 6px color-mix(in oklab, var(--amber) 14%, transparent), 0 6px 20px -6px var(--amber);
+    animation: breathe 5s ease-in-out infinite;
+  }
+  @keyframes breathe { 50% { box-shadow: 0 0 0 10px color-mix(in oklab, var(--amber) 8%, transparent), 0 6px 24px -4px var(--amber); } }
+  .name { font-family: var(--font-display); font-style: italic; font-weight: 600; font-size: 1.25rem; line-height: 1; }
+  .name small { display: block; font-family: var(--font-serif); font-style: normal; font-size: 0.62rem; letter-spacing: 0.24em; color: var(--ink-muted); margin-top: 5px; }
+  .nav { display: flex; gap: 28px; }
+  .nav a { font-size: 0.88rem; font-weight: 500; text-decoration: none; position: relative; padding-block: 4px; }
+  .nav a::after {
+    content: ''; position: absolute; inset: auto 0 0 0; height: 1px; background: var(--amber-deep);
+    transform: scaleX(0); transform-origin: right; transition: transform 0.35s var(--ease-out);
+  }
+  .nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .cta { padding: 11px 22px; font-size: 0.85rem; }
+  .menu-btn { display: none; width: 44px; height: 44px; border: 0; background: none; cursor: pointer; position: relative; }
+  .menu-btn span { position: absolute; left: 11px; right: 11px; height: 1.5px; background: var(--ink); }
+  .menu-btn span:first-child { top: 18px; }
+  .menu-btn span:last-child { top: 25px; }
+
+  /* Popover ＋ @starting-style で開閉アニメーション */
+  .mobile-menu {
+    inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; border: 0;
+    background: var(--dusk); color: var(--paper); padding: 96px var(--gutter) 40px;
+    opacity: 0; transform: translateY(-16px);
+    transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), display 0.4s allow-discrete, overlay 0.4s allow-discrete;
+  }
+  .mobile-menu:popover-open { opacity: 1; transform: none; }
+  @starting-style { .mobile-menu:popover-open { opacity: 0; transform: translateY(-16px); } }
+  .mobile-menu nav { display: grid; gap: 8px; }
+  .mobile-menu a:not(.btn) {
+    font-family: var(--font-serif); font-size: 1.5rem; text-decoration: none; padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .mobile-menu .btn { margin-top: 24px; justify-content: center; --btn-bg: var(--amber); --btn-fg: var(--ink); }
+
+  @media (max-width: 960px) {
+    .nav { display: none; }
+    .menu-btn { display: block; z-index: 60; }
+    .cta { display: none; }
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import { site } from '../data/site';
+---
+<section class="section maker">
+  <div class="container grid">
+    <div class="orb" aria-hidden="true" data-parallax="-25"><span>陽</span></div>
+    <div>
+      <p class="eyebrow">About</p>
+      <h2 class="h-sec" data-split>宇都宮に住む作り手が、<br /><em>直接</em>伺います。</h2>
+      <p class="lead">
+        {site.name}は、{site.city}を拠点にする小さなWeb制作スタジオです。
+        大きな制作会社では拾いきれない、地域のお店の屋号や想い、積み重ねてきた信頼を、ひとつのホームページに丁寧に紡ぎます。
+      </p>
+      <p class="lead">
+        制作にはAIも活用し、手間と費用を抑えています。そのぶん、お店に伺ってお話を聞く時間を大切にしています。
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .orb {
+    aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+    background: radial-gradient(circle at 35% 30%, #fff1dc, var(--amber-light) 35%, var(--amber) 65%, var(--amber-deep));
+    box-shadow: 0 60px 120px -50px var(--amber-deep), inset 0 -20px 60px rgba(120, 50, 0, 0.25);
+    max-width: 420px; width: 100%; justify-self: center;
+  }
+  .orb span { font-family: var(--font-serif); font-size: clamp(5rem, 12vw, 9rem); color: rgba(255, 252, 245, 0.9); line-height: 1; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .orb { max-width: 240px; } }
+</style>

@@ -1,0 +1,48 @@
+---
+// 架空店舗サンプルのサムネイル（ブラウザ風フレーム）。
+// view-transition-name により、一覧→詳細ページ間で同じ要素としてモーフィングする。
+import type { Sample } from '../data/samples';
+import Motif from './Motif.astro';
+interface Props { sample: Sample; size?: 'card' | 'hero' }
+const { sample, size = 'card' } = Astro.props;
+const p = sample.palette;
+---
+<div
+  class:list={['mock', size, sample.font]}
+  style={`--s-bg:${p.bg};--s-ink:${p.ink};--s-accent:${p.accent};--s-soft:${p.soft};view-transition-name:mock-${sample.slug}`}
+>
+  <div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>{sample.slug}.example</span></div>
+  <div class="body">
+    <div class="motif"><Motif kind={sample.motif} /></div>
+    <p class="kind">{sample.kind}</p>
+    <p class="name">{sample.name}</p>
+    <p class="catch">{sample.catch}</p>
+    <p class="rate" aria-label={`サンプル評価 ${sample.rating}`}>★ {sample.rating.toFixed(1)}<small>（{sample.reviews}件・サンプル）</small></p>
+  </div>
+</div>
+
+<style>
+  .mock {
+    background: var(--s-bg); color: var(--s-ink); border-radius: 14px; overflow: hidden;
+    box-shadow: 0 30px 60px -30px rgba(21, 17, 11, 0.45), 0 0 0 1px rgba(21, 17, 11, 0.06);
+    display: flex; flex-direction: column; aspect-ratio: 4 / 5;
+  }
+  .mock.hero { aspect-ratio: auto; min-height: 70vh; border-radius: 0; box-shadow: none; }
+  .chrome { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--s-soft); font-size: 0.68rem; }
+  .chrome i { width: 8px; height: 8px; border-radius: 50%; background: var(--s-ink); opacity: 0.25; }
+  .chrome span { margin-left: 10px; opacity: 0.55; letter-spacing: 0.04em; }
+  .hero .chrome { display: none; }
+  .body { position: relative; flex: 1; padding: clamp(20px, 6%, 64px); display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+  .motif { position: absolute; right: -8%; top: -4%; width: 62%; color: var(--s-accent); opacity: 0.45; }
+  .body > p { position: relative; }
+  .hero .motif { width: min(52vw, 620px); right: -4%; top: 4%; opacity: 0.8; }
+  .kind { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--s-accent); font-weight: 700; }
+  .name { font-size: 0.95rem; font-weight: 700; margin-top: 4px; }
+  .catch { white-space: pre-line; line-height: 1.35; font-weight: 700; margin-top: 14px; font-size: clamp(1.3rem, 2.4vw, 1.9rem); position: relative; }
+  .hero .kind { font-size: 0.85rem; }
+  .hero .name { font-size: 1.2rem; }
+  .hero .catch { font-size: clamp(2.2rem, 6vw, 4.6rem); }
+  .serif .catch, .serif .name { font-family: var(--font-serif); }
+  .rate { margin-top: 16px; font-weight: 700; color: var(--s-accent); font-size: 0.9rem; }
+  .rate small { font-weight: 400; opacity: 0.75; color: var(--s-ink); margin-left: 4px; font-size: 0.75rem; }
+</style>

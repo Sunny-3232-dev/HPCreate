@@ -1,0 +1,52 @@
+---
+const steps = [
+  { t: '無料相談', d: 'お電話・フォーム・対面で。いまのお店の状況とご希望を伺います（30〜60分）。' },
+  { t: '提案サンプルとお見積り', d: '口コミを読み込んだうえで、トップページのサンプルをお見せします。納得いただいてからご契約。' },
+  { t: '訪問・撮影・ヒアリング', d: 'お店に伺い、写真撮影とお話を。原稿はこちらで書き起こします。' },
+  { t: '制作・確認', d: '素材が揃ってから10営業日で仕上げます。修正は2回まで承ります。' },
+  { t: '公開・Googleマップ整備', d: '独自ドメインで公開し、Googleビジネスプロフィールにもリンク。口コミ依頼カードをお渡しします。' },
+];
+---
+<section id="flow" class="section flow">
+  <div class="container grid">
+    <div class="head">
+      <p class="eyebrow">Flow</p>
+      <h2 class="h-sec" data-split>ご相談から公開まで、<br /><em>最短3週間</em>。</h2>
+      <p class="lead">Webに詳しくなくても大丈夫。専門用語を使わずに、一つずつご説明します。</p>
+    </div>
+    <ol class="timeline">
+      <span class="line" aria-hidden="true"></span>
+      {steps.map((s, i) => (
+        <li class="reveal">
+          <span class="dot" aria-hidden="true">{i + 1}</span>
+          <h3>{s.t}</h3>
+          <p>{s.d}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .flow { background: var(--bg-soft); }
+  .grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(32px, 6vw, 96px); }
+  .head { position: sticky; top: 120px; align-self: start; }
+  .timeline { list-style: none; position: relative; display: grid; gap: 48px; padding-left: 64px; }
+  .line { position: absolute; left: 21px; top: 8px; bottom: 8px; width: 2px; background: var(--hairline); overflow: hidden; }
+  .line::after { content: ''; position: absolute; inset: 0; background: linear-gradient(var(--amber-light), var(--amber-deep)); transform-origin: top; transform: scaleY(1); }
+  /* スクロールに合わせて線が伸びる（CSS Scroll-driven Animations） */
+  @supports (animation-timeline: view()) {
+    .timeline { view-timeline: --flow block; }
+    .line::after { animation: grow-y linear both; animation-timeline: --flow; animation-range: cover 10% cover 70%; }
+  }
+  @keyframes grow-y { from { transform: scaleY(0); } }
+  li { position: relative; }
+  .dot {
+    position: absolute; left: -64px; top: 0; width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--paper); border: 2px solid var(--amber);
+    font-family: var(--font-display); font-style: italic; font-weight: 600; color: var(--amber-deep);
+  }
+  h3 { font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.6; padding-top: 6px; }
+  p { color: var(--ink-soft); font-size: 0.93rem; margin-top: 6px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .head { position: static; } }
+</style>

@@ -1,0 +1,65 @@
+---
+import { samples } from '../data/samples';
+import SampleMock from './SampleMock.astro';
+---
+<section id="samples" class="section samples">
+  <div class="container head">
+    <p class="eyebrow">Proposal samples</p>
+    <h2 class="h-sec" data-split>業種ごとに、<br /><em>似合う佇まい</em>を。</h2>
+    <p class="lead">
+      口コミの傾向・客層・単価から、色・書体・言葉づかいまで設計します。<br />
+      <strong>※ 掲載はすべて架空の店舗によるデザインサンプルです。</strong>
+    </p>
+  </div>
+  <div class="hwrap" data-hscroll>
+    <ul class="track" data-hscroll-track>
+      {samples.map((s) => (
+        <li>
+          <a href={`/samples/${s.slug}/`} class="card" aria-label={`${s.name}（${s.kind}）のサンプルを見る`}>
+            <SampleMock sample={s} />
+            <span class="label">{s.kind}<span aria-hidden="true">↗</span></span>
+          </a>
+        </li>
+      ))}
+      <li class="yours">
+        <a href="#contact" class="card slot">
+          <span>次は、<br />あなたのお店。</span>
+          <small>無料で提案サンプルをお作りします →</small>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .samples { background: var(--dusk); color: #efe8da; overflow: hidden; }
+  .samples .lead { color: #c9c0b0; }
+  .samples .lead strong { color: var(--amber-light); font-weight: 500; }
+  .samples .h-sec em { color: var(--amber-light); }
+  .hwrap { margin-top: 56px; }
+  .track {
+    list-style: none; display: flex; gap: clamp(16px, 2.4vw, 32px);
+    padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    width: max-content;
+  }
+  .track li { width: clamp(260px, 26vw, 340px); flex: none; }
+  .card { display: block; text-decoration: none; color: inherit; }
+  .card :global(.mock) { transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out); }
+  .card:hover :global(.mock) { transform: translateY(-8px) rotate(-1deg); }
+  .label { display: flex; justify-content: space-between; margin-top: 14px; font-size: 0.88rem; color: #c9c0b0; }
+  .slot {
+    aspect-ratio: 4 / 5; border: 1px dashed rgba(239, 232, 218, 0.35); border-radius: 14px;
+    display: flex; flex-direction: column; justify-content: center; padding: 32px; gap: 16px;
+    transition: background 0.4s, border-color 0.4s;
+  }
+  .slot span { font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.5; }
+  .slot small { color: var(--amber-light); font-size: 0.85rem; }
+  .slot:hover { background: rgba(232, 146, 60, 0.08); border-color: var(--amber); }
+
+  /* スマホ・タブレット：ネイティブの横スワイプ＋スナップ */
+  @media (max-width: 899px) {
+    .hwrap { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 8px; }
+    .hwrap::-webkit-scrollbar { display: none; }
+    .track li { scroll-snap-align: center; width: 76vw; max-width: 320px; }
+  }
+</style>

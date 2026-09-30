@@ -1,0 +1,30 @@
+---
+import Base from './Base.astro';
+interface Props { title: string; updated: string }
+const { title, updated } = Astro.props;
+---
+<Base title={title}>
+  <article class="legal container">
+    <a class="back" href="/">← トップに戻る</a>
+    <h1>{title}</h1>
+    <slot />
+    <p class="updated">最終更新：{updated}</p>
+  </article>
+</Base>
+
+<style>
+  .legal { max-width: 860px; padding-block: 64px 120px; }
+  .back { font-size: 0.85rem; color: var(--ink-muted); text-decoration: none; }
+  h1 { font-family: var(--font-serif); font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 20px 0 32px; }
+  .legal :global(h2) { font-family: var(--font-serif); font-size: 1.15rem; margin: 40px 0 12px; }
+  .legal :global(p), .legal :global(li) { color: var(--ink-soft); font-size: 0.95rem; }
+  .legal :global(ul) { padding-left: 1.4em; margin-top: 8px; }
+  .legal :global(table) { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .legal :global(th), .legal :global(td) { text-align: left; vertical-align: top; padding: 16px 12px; border-bottom: 1px solid var(--hairline); font-size: 0.92rem; }
+  .legal :global(th) { width: 30%; font-weight: 700; white-space: nowrap; }
+  .updated { margin-top: 48px; font-size: 0.8rem; color: var(--ink-muted); }
+  @media (max-width: 640px) {
+    .legal :global(th), .legal :global(td) { display: block; width: 100%; }
+    .legal :global(th) { border-bottom: 0; padding-bottom: 0; }
+  }
+</style>

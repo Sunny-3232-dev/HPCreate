@@ -1,0 +1,48 @@
+---
+const faqs = [
+  { q: 'パソコンが苦手でも大丈夫ですか？', a: 'はい。ご用意いただくのは、お話を聞かせていただく時間だけです。写真撮影・原稿作成・ドメインやサーバーの手続きは、すべてこちらで行います。' },
+  { q: 'Instagramや食べログがあれば十分では？', a: 'SNSやグルメサイトは「今」を伝えるのが得意ですが、料金・実例・想いなど、じっくり比較したい情報はまとめにくい媒体です。ホームページを「本店」にして、SNSやGoogleマップから集める形がおすすめです。' },
+  { q: '月額保守は必須ですか？', a: '任意です。保守なしの場合でも、ドメイン・サーバーの更新手続きの方法をお渡しします。写真や営業時間の差し替えを気軽に頼みたい方には、月額保守がおすすめです。' },
+  { q: '宇都宮市外でも対応できますか？', a: '栃木県内であれば伺います。県外の方はオンラインでのご相談・撮影素材のご提供で対応します。' },
+  { q: '修正は何回までできますか？', a: '公開前の修正は2回まで承ります。回数を決めておくことで、スケジュール通りに公開できます。公開後の小さな修正は月額保守の範囲で対応します。' },
+];
+---
+<section id="faq" class="section faq">
+  <div class="container narrow">
+    <p class="eyebrow">FAQ</p>
+    <h2 class="h-sec" data-split>よくあるご質問</h2>
+    <div class="list">
+      {faqs.map((f) => (
+        <details class="reveal" name="faq">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq { background: var(--paper); }
+  .narrow { max-width: 880px; }
+  .list { margin-top: 48px; border-top: 1px solid var(--hairline); }
+  details { border-bottom: 1px solid var(--hairline); interpolate-size: allow-keywords; }
+  summary {
+    list-style: none; cursor: pointer; padding: 24px 48px 24px 0; position: relative;
+    font-family: var(--font-serif); font-size: 1.08rem; font-weight: 700;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after, summary::before {
+    content: ''; position: absolute; right: 8px; top: 50%; width: 16px; height: 1.5px; background: var(--amber-deep);
+    transition: transform 0.4s var(--ease-out);
+  }
+  summary::before { transform: rotate(90deg); }
+  details[open] summary::before { transform: rotate(0deg); }
+  details p { color: var(--ink-soft); padding-bottom: 24px; font-size: 0.95rem; }
+  /* 開閉を高さアニメーション（::details-content + interpolate-size） */
+  details::details-content {
+    block-size: 0; overflow: hidden;
+    transition: block-size 0.45s var(--ease-out), content-visibility 0.45s allow-discrete;
+  }
+  details[open]::details-content { block-size: auto; }
+</style>

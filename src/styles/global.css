@@ -1,0 +1,133 @@
+/* ─── Tokens: 黎明（dawn）パレット ─── */
+:root {
+  --bg: #faf6ec;
+  --bg-soft: #f2ead8;
+  --paper: #fffcf5;
+  --ink: #15110b;
+  --ink-soft: #3d332a;
+  --ink-muted: #6f6453;
+  --hairline: #d9cfb5;
+  --amber: #e8923c;
+  --amber-deep: #b8621a;
+  --amber-light: #f5c68f;
+  --amber-pale: #ffe9cb;
+  --dawn: #5c5077;
+  --dusk: #1f1a2e;
+  --night: #120f1c;
+
+  --font-display: 'Fraunces', 'Shippori Mincho', serif;
+  --font-serif: 'Shippori Mincho', 'Noto Serif JP', serif;
+  --font-body: 'Noto Sans JP', system-ui, -apple-system, sans-serif;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1240px;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.9;
+  letter-spacing: 0.03em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+img, svg, canvas { display: block; max-width: 100%; }
+a { color: inherit; }
+button, input, textarea, select { font: inherit; color: inherit; }
+::selection { background: var(--ink); color: var(--paper); }
+:focus-visible { outline: 2px solid var(--amber-deep); outline-offset: 3px; border-radius: 4px; }
+
+.container { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ─── Type ─── */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--amber-deep);
+}
+.eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+.h-sec {
+  font-family: var(--font-serif); font-weight: 700;
+  font-size: clamp(1.75rem, 4.2vw, 3.1rem); line-height: 1.45; letter-spacing: 0.04em;
+  margin-top: 18px;
+  word-break: auto-phrase; text-wrap: balance;
+}
+.h-sec em { font-style: normal; color: var(--amber-deep); }
+.lead { font-size: clamp(0.98rem, 1.4vw, 1.08rem); color: var(--ink-soft); max-width: 40em; margin-top: 20px; text-wrap: pretty; }
+.section { padding-block: clamp(88px, 13vw, 160px); position: relative; }
+
+/* ─── Buttons ─── */
+.btn {
+  --btn-bg: var(--ink); --btn-fg: var(--paper);
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 15px 28px; border-radius: 999px; border: 1px solid var(--btn-bg);
+  background: var(--btn-bg); color: var(--btn-fg);
+  font-weight: 700; font-size: 0.95rem; letter-spacing: 0.08em; text-decoration: none;
+  cursor: pointer; will-change: transform;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.btn:hover { --btn-bg: var(--amber-deep); }
+.btn--ghost { --btn-bg: transparent; --btn-fg: var(--ink); border-color: var(--ink); }
+.btn--ghost:hover { --btn-bg: var(--ink); --btn-fg: var(--paper); }
+.btn .arrow { transition: transform 0.3s var(--ease-out); }
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* ─── Scroll progress（CSS Scroll-driven Animations） ─── */
+.progress {
+  position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 100;
+  background: linear-gradient(90deg, var(--amber-light), var(--amber), var(--amber-deep));
+  transform-origin: 0 50%; transform: scaleX(0);
+}
+@supports (animation-timeline: scroll()) {
+  .progress { animation: grow-x linear both; animation-timeline: scroll(root); }
+}
+@keyframes grow-x { to { transform: scaleX(1); } }
+
+/* ─── Reveal: CSS view() タイムライン。未対応ブラウザは JS（IntersectionObserver）で .is-in を付与 ─── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
+.reveal.is-in { opacity: 1; transform: none; }
+@supports (animation-timeline: view()) {
+  .reveal, .reveal.is-in {
+    opacity: 1; transform: none; transition: none;
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 5% cover 28%;
+  }
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* ─── ページ間 View Transitions ─── */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.35s var(--ease-in-out) both vt-out; }
+::view-transition-new(root) { animation: 0.5s var(--ease-out) both vt-in; }
+@keyframes vt-out { to { opacity: 0; transform: translateY(-12px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(16px); } }
+
+/* ─── 動きを減らす設定の尊重 ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal, .reveal.is-in { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
+  .progress { display: none; }
+  @view-transition { navigation: none; }
+}
